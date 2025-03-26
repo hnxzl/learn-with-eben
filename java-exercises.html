@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan & Tugas Java - Learn With Eben</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --text-secondary: #4b5563;
+            --bg-color: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --code-bg: #1e293b;
+            --code-color: #e2e8f0;
+            --header-height: 70px;
+            --sidebar-width: 280px;
+        }
+
+        .dark {
+            --primary-color: #3b82f6;
+            --primary-hover: #60a5fa;
+            --text-color: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --bg-color: #111827;
+            --bg-secondary: #1f2937;
+            --border-color: #374151;
+            --card-bg: #1f2937;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            --code-bg: #0f172a;
+            --code-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 8px 15px 8px 35px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background-color: var(--bg-secondary);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            width: 200px;
+            transition: width 0.3s, box-shadow 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+            width: 250px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .course-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            position: sticky;
+            top: var(--header-height);
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+            transition: background-color 0.3s;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-menu {
+            list-style: none;
+        }
+
+        .menu-section {
+            margin-bottom: 15px;
+        }
+
+        .menu-section-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .menu-section-title i {
+            margin-right: 8px;
+            transition: transform 0.3s;
+        }
+
+        .menu-section-title.collapsed i {
+            transform: rotate(-90deg);
+        }
+
+        .menu-items {
+            list-style: none;
+            padding-left: 25px;
+            margin-top: 5px;
+        }
+
+        .menu-item {
+            margin-bottom: 8px;
+        }
+
+        .menu-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.2s;
+        }
+
+        .menu-item a:hover {
+            color: var(--primary-color);
+        }
+
+        .menu-item.active a {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+        }
+
+        .content-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .content-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .content-meta span {
+            display: flex;
+            align-items: center;
+        }
+
+        .content-meta i {
+            margin-right: 5px;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .subsection {
+            margin-bottom: 25px;
+        }
+
+        .subsection-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .content-text {
+            margin-bottom: 15px;
+        }
+
+        .content-list {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-list li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #94a3b8;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #94a3b8;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .note-box {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .note-box-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .exercise-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .exercise-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .difficulty.easy {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .difficulty.medium {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .difficulty.hard {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .exercise-description {
+            margin-bottom: 15px;
+        }
+
+        .solution-container {
+            margin-top: 20px;
+        }
+
+        .solution-toggle {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+        }
+
+        .solution-toggle i {
+            margin-right: 8px;
+            transition: transform 0.3s;
+        }
+
+        .solution-toggle.active i {
+            transform: rotate(90deg);
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--primary-color);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .project-header {
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 15px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .project-description {
+            margin-bottom: 15px;
+        }
+
+        .project-requirements {
+            margin-bottom: 15px;
+        }
+
+        .project-requirements h4 {
+            margin-bottom: 10px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .download-btn i {
+            margin-right: 8px;
+        }
+
+        .quiz-container {
+            margin-bottom: 30px;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+
+        .quiz-option {
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .quiz-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .quiz-option.correct {
+            background-color: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .quiz-option.incorrect {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+
+        .quiz-feedback.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .quiz-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .quiz-btn:disabled {
+            background-color: var(--border-color);
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+                --sidebar-width: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .course-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 10px;
+            }
+
+            .main-content {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .content-title {
+                font-size: 1.75rem;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Learn With Eben
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#courses">Courses</a>
+                <a href="java-exercises.html">Latihan</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search exercises...">
+                </div>
+                <button class="theme-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="course-container">
+        <aside class="sidebar">
+            <h2 class="course-title">Latihan & Tugas Java</h2>
+            
+            <ul class="course-menu">
+                <li class="menu-section">
+                    <div class="menu-section-title">
+                        <i class="fas fa-chevron-down"></i>
+                        Navigasi
+                    </div>
+                    <ul class="menu-items">
+                        <li class="menu-item"><a href="java-course.html">Kembali ke Materi</a></li>
+                        <li class="menu-item active"><a href="#latihan-dasar">Latihan Dasar</a></li>
+                        <li class="menu-item"><a href="#latihan-menengah">Latihan Menengah</a></li>
+                        <li class="menu-item"><a href="#latihan-lanjutan">Latihan Lanjutan</a></li>
+                        <li class="menu-item"><a href="#mini-projects">Mini Projects</a></li>
+                        <li class="menu-item"><a href="#quiz">Quiz</a></li>
+                    </ul>
+                </li>
+                <li class="menu-section">
+                    <div class="menu-section-title">
+                        <i class="fas fa-chevron-down"></i>
+                        Kategori Latihan
+                    </div>
+                    <ul class="menu-items">
+                        <li class="menu-item"><a href="#variabel-tipe-data">Variabel & Tipe Data</a></li>
+                        <li class="menu-item"><a href="#operator-ekspresi">Operator & Ekspresi</a></li>
+                        <li class="menu-item"><a href="#percabangan">Percabangan</a></li>
+                        <li class="menu-item"><a href="#perulangan">Perulangan</a></li>
+                        <li class="menu-item"><a href="#array-collection">Array & Collection</a></li>
+                        <li class="menu-item"><a href="#oop">OOP</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="content-title">Latihan & Tugas Java</h1>
+                <div class="content-meta">
+                    <span><i class="fas fa-tasks"></i> 50+ Latihan</span>
+                    <span><i class="fas fa-project-diagram"></i> 5 Mini Projects</span>
+                    <span><i class="fas fa-question-circle"></i> 30 Quiz</span>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="exercises">Latihan</div>
+                <div class="tab" data-tab="projects">Mini Projects</div>
+                <div class="tab" data-tab="quiz">Quiz</div>
+            </div>
+
+            <div id="exercises" class="tab-content active">
+                <section id="latihan-dasar" class="content-section">
+                    <h2 class="section-title">Latihan Dasar</h2>
+                    
+                    <div id="variabel-tipe-data" class="subsection">
+                        <h3 class="subsection-title">Variabel & Tipe Data</h3>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 1: Deklarasi dan Inisialisasi Variabel</h4>
+                                <span class="difficulty easy">Mudah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang mendeklarasikan dan menginisialisasi variabel dengan tipe data berikut:</p>
+                                <ul class="content-list">
+                                    <li>int (bilangan bulat)</li>
+                                    <li>double (bilangan desimal)</li>
+                                    <li>char (karakter)</li>
+                                    <li>boolean (nilai boolean)</li>
+                                    <li>String (teks)</li>
+                                </ul>
+                                <p>Kemudian tampilkan nilai dari masing-masing variabel tersebut.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>VariableDeclaration.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>public class VariableDeclaration {
+    public static void main(String[] args) {
+        // Deklarasi dan inisialisasi variabel
+        int age = 25;
+        double height = 175.5;
+        char grade = 'A';
+        boolean isStudent = true;
+        String name = "John Doe";
+        
+        // Menampilkan nilai variabel
+        System.out.println("Nilai variabel int: " + age);
+        System.out.println("Nilai variabel double: " + height);
+        System.out.println("Nilai variabel char: " + grade);
+        System.out.println("Nilai variabel boolean: " + isStudent);
+        System.out.println("Nilai variabel String: " + name);
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 2: Konversi Tipe Data</h4>
+                                <span class="difficulty easy">Mudah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang melakukan konversi antar tipe data berikut:</p>
+                                <ul class="content-list">
+                                    <li>Konversi dari int ke double</li>
+                                    <li>Konversi dari double ke int</li>
+                                    <li>Konversi dari String ke int</li>
+                                    <li>Konversi dari int ke String</li>
+                                    <li>Konversi dari char ke int (nilai ASCII)</li>
+                                </ul>
+                                <p>Tampilkan hasil konversi untuk setiap kasus.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>TypeConversion.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>public class TypeConversion {
+    public static void main(String[] args) {
+        // Konversi dari int ke double (implicit conversion)
+        int num1 = 100;
+        double double1 = num1;  // Automatic casting
+        System.out.println("int ke double: " + num1 + " -> " + double1);
+        
+        // Konversi dari double ke int (explicit conversion)
+        double double2 = 123.456;
+        int num2 = (int) double2;  // Manual casting, decimal part is truncated
+        System.out.println("double ke int: " + double2 + " -> " + num2);
+        
+        // Konversi dari String ke int
+        String str1 = "500";
+        int num3 = Integer.parseInt(str1);
+        System.out.println("String ke int: " + str1 + " -> " + num3);
+        
+        // Konversi dari int ke String
+        int num4 = 250;
+        String str2 = Integer.toString(num4);  // or String.valueOf(num4)
+        System.out.println("int ke String: " + num4 + " -> " + str2);
+        
+        // Konversi dari char ke int (nilai ASCII)
+        char ch = 'A';
+        int ascii = (int) ch;
+        System.out.println("char ke int (ASCII): " + ch + " -> " + ascii);
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="operator-ekspresi" class="subsection">
+                        <h3 class="subsection-title">Operator & Ekspresi</h3>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 3: Kalkulator Sederhana</h4>
+                                <span class="difficulty easy">Mudah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program kalkulator sederhana yang melakukan operasi aritmatika dasar (penjumlahan, pengurangan, perkalian, dan pembagian) pada dua bilangan.</p>
+                                <p>Program harus menerima input dua bilangan dan operator dari pengguna, kemudian menampilkan hasil perhitungan.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>SimpleCalculator.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.Scanner;
+
+public class SimpleCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Kalkulator Sederhana");
+        System.out.println("--------------------");
+        
+        // Input bilangan pertama
+        System.out.print("Masukkan bilangan pertama: ");
+        double num1 = scanner.nextDouble();
+        
+        // Input operator
+        System.out.print("Masukkan operator (+, -, *, /): ");
+        char operator = scanner.next().charAt(0);
+        
+        // Input bilangan kedua
+        System.out.print("Masukkan bilangan kedua: ");
+        double num2 = scanner.nextDouble();
+        
+        // Melakukan perhitungan
+        double result = 0;
+        boolean validOperator = true;
+        
+        switch (operator) {
+            case '+':
+                result = num1 + num2;
+                break;
+            case '-':
+                result = num1 - num2;
+                break;
+            case '*':
+                result = num1 * num2;
+                break;
+            case '/':
+                if (num2 != 0) {
+                    result = num1 / num2;
+                } else {
+                    System.out.println("Error: Pembagian dengan nol tidak diperbolehkan");
+                    validOperator = false;
+                }
+                break;
+            default:
+                System.out.println("Error: Operator tidak valid");
+                validOperator = false;
+        }
+        
+        // Menampilkan hasil
+        if (validOperator) {
+            System.out.println(num1 + " " + operator + " " + num2 + " = " + result);
+        }
+        
+        scanner.close();
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 4: Menghitung Luas dan Keliling Bangun Datar</h4>
+                                <span class="difficulty easy">Mudah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang menghitung luas dan keliling bangun datar berikut:</p>
+                                <ul class="content-list">
+                                    <li>Persegi</li>
+                                    <li>Persegi panjang</li>
+                                    <li>Lingkaran</li>
+                                    <li>Segitiga (dengan rumus Heron)</li>
+                                </ul>
+                                <p>Program harus menerima input dimensi bangun datar dari pengguna dan menampilkan hasil perhitungan.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>ShapeCalculator.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.Scanner;
+
+public class ShapeCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Kalkulator Bangun Datar");
+        System.out.println("----------------------");
+        System.out.println("1. Persegi");
+        System.out.println("2. Persegi Panjang");
+        System.out.println("3. Lingkaran");
+        System.out.println("4. Segitiga");
+        System.out.print("Pilih bangun datar (1-4): ");
+        
+        int choice = scanner.nextInt();
+        
+        switch (choice) {
+            case 1:
+                calculateSquare(scanner);
+                break;
+            case 2:
+                calculateRectangle(scanner);
+                break;
+            case 3:
+                calculateCircle(scanner);
+                break;
+            case 4:
+                calculateTriangle(scanner);
+                break;
+            default:
+                System.out.println("Pilihan tidak valid");
+        }
+        
+        scanner.close();
+    }
+    
+    private static void calculateSquare(Scanner scanner) {
+        System.out.print("Masukkan panjang sisi: ");
+        double side = scanner.nextDouble();
+        
+        double area = side * side;
+        double perimeter = 4 * side;
+        
+        System.out.println("Luas persegi: " + area);
+        System.out.println("Keliling persegi: " + perimeter);
+    }
+    
+    private static void calculateRectangle(Scanner scanner) {
+        System.out.print("Masukkan panjang: ");
+        double length = scanner.nextDouble();
+        
+        System.out.print("Masukkan lebar: ");
+        double width = scanner.nextDouble();
+        
+        double area = length * width;
+        double perimeter = 2 * (length + width);
+        
+        System.out.println("Luas persegi panjang: " + area);
+        System.out.println("Keliling persegi panjang: " + perimeter);
+    }
+    
+    private static void calculateCircle(Scanner scanner) {
+        System.out.print("Masukkan jari-jari: ");
+        double radius = scanner.nextDouble();
+        
+        double area = Math.PI * radius * radius;
+        double perimeter = 2 * Math.PI * radius;
+        
+        System.out.println("Luas lingkaran: " + area);
+        System.out.println("Keliling lingkaran: " + perimeter);
+    }
+    
+    private static void calculateTriangle(Scanner scanner) {
+        System.out.print("Masukkan panjang sisi a: ");
+        double a = scanner.nextDouble();
+        
+        System.out.print("Masukkan panjang sisi b: ");
+        double b = scanner.nextDouble();
+        
+        System.out.print("Masukkan panjang sisi c: ");
+        double c = scanner.nextDouble();
+        
+        // Menghitung keliling
+        double perimeter = a + b + c;
+        
+        // Menghitung luas dengan rumus Heron
+        double s = perimeter / 2;
+        double area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+        
+        System.out.println("Luas segitiga: " + area);
+        System.out.println("Keliling segitiga: " + perimeter);
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="latihan-menengah" class="content-section">
+                    <h2 class="section-title">Latihan Menengah</h2>
+                    
+                    <div id="percabangan" class="subsection">
+                        <h3 class="subsection-title">Percabangan</h3>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 5: Menentukan Kategori Nilai</h4>
+                                <span class="difficulty medium">Menengah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang menerima input nilai ujian (0-100) dan menentukan kategori nilai berdasarkan ketentuan berikut:</p>
+                                <ul class="content-list">
+                                    <li>Nilai 90-100: A</li>
+                                    <li>Nilai 80-89: B</li>
+                                    <li>Nilai 70-79: C</li>
+                                    <li>Nilai 60-69: D</li>
+                                    <li>Nilai 0-59: E</li>
+                                </ul>
+                                <p>Program juga harus melakukan validasi input, memastikan nilai yang dimasukkan berada dalam rentang 0-100.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>GradeCalculator.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.Scanner;
+
+public class GradeCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Program Penentuan Kategori Nilai");
+        System.out.println("-------------------------------");
+        
+        System.out.print("Masukkan nilai ujian (0-100): ");
+        int score = scanner.nextInt();
+        
+        // Validasi input
+        if (score < 0 || score > 100) {
+            System.out.println("Error: Nilai harus berada dalam rentang 0-100");
+        } else {
+            // Menentukan kategori nilai
+            char grade;
+            
+            if (score >= 90) {
+                grade = 'A';
+            } else if (score >= 80) {
+                grade = 'B';
+            } else if (score >= 70) {
+                grade = 'C';
+            } else if (score >= 60) {
+                grade = 'D';
+            } else {
+                grade = 'E';
+            }
+            
+            System.out.println("Nilai " + score + " termasuk kategori: " + grade);
+            
+            // Menampilkan keterangan tambahan
+            switch (grade) {
+                case 'A':
+                    System.out.println("Keterangan: Sangat Baik");
+                    break;
+                case 'B':
+                    System.out.println("Keterangan: Baik");
+                    break;
+                case 'C':
+                    System.out.println("Keterangan: Cukup");
+                    break;
+                case 'D':
+                    System.out.println("Keterangan: Kurang");
+                    break;
+                case 'E':
+                    System.out.println("Keterangan: Sangat Kurang");
+                    break;
+            }
+        }
+        
+        scanner.close();
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 6: Kalkulator BMI</h4>
+                                <span class="difficulty medium">Menengah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang menghitung Body Mass Index (BMI) dan menentukan kategori berat badan berdasarkan ketentuan berikut:</p>
+                                <ul class="content-list">
+                                    <li>BMI < 18.5: Kekurangan berat badan</li>
+                                    <li>18.5 ≤ BMI < 25.0: Normal</li>
+                                    <li>25.0 ≤ BMI < 30.0: Kelebihan berat badan</li>
+                                    <li>BMI ≥ 30.0: Obesitas</li>
+                                </ul>
+                                <p>Rumus BMI = berat (kg) / (tinggi (m))²</p>
+                                <p>Program harus menerima input berat badan (kg) dan tinggi badan (cm) dari pengguna.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>BMICalculator.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.Scanner;
+
+public class BMICalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Kalkulator BMI (Body Mass Index)");
+        System.out.println("-------------------------------");
+        
+        // Input berat badan
+        System.out.print("Masukkan berat badan (kg): ");
+        double weight = scanner.nextDouble();
+        
+        // Input tinggi badan
+        System.out.print("Masukkan tinggi badan (cm): ");
+        double height = scanner.nextDouble();
+        
+        // Konversi tinggi dari cm ke m
+        height = height / 100;
+        
+        // Validasi input
+        if (weight <= 0 || height <= 0) {
+            System.out.println("Error: Berat dan tinggi harus lebih dari 0");
+        } else {
+            // Menghitung BMI
+            double bmi = weight / (height * height);
+            
+            // Menentukan kategori BMI
+            String category;
+            
+            if (bmi < 18.5) {
+                category = "Kekurangan berat badan";
+            } else if (bmi < 25.0) {
+                category = "Normal";
+            } else if (bmi < 30.0) {
+                category = "Kelebihan berat badan";
+            } else {
+                category = "Obesitas";
+            }
+            
+            // Menampilkan hasil
+            System.out.printf("BMI Anda: %.2f\n", bmi);
+            System.out.println("Kategori: " + category);
+            
+            // Rekomendasi
+            System.out.println("\nRekomendasi:");
+            if (bmi < 18.5) {
+                System.out.println("- Tingkatkan asupan kalori harian");
+                System.out.println("- Konsumsi makanan bergizi tinggi");
+                System.out.println("- Lakukan latihan kekuatan untuk membangun massa otot");
+            } else if (bmi < 25.0) {
+                System.out.println("- Pertahankan pola makan dan aktivitas fisik yang seimbang");
+                System.out.println("- Lakukan olahraga secara teratur");
+            } else {
+                System.out.println("- Kurangi asupan kalori harian");
+                System.out.println("- Tingkatkan aktivitas fisik");
+                System.out.println("- Konsumsi lebih banyak buah dan sayuran");
+            }
+        }
+        
+        scanner.close();
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="perulangan" class="subsection">
+                        <h3 class="subsection-title">Perulangan</h3>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 7: Menghitung Faktorial</h4>
+                                <span class="difficulty medium">Menengah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang menghitung faktorial dari sebuah bilangan. Faktorial dari n (dilambangkan dengan n!) adalah hasil perkalian semua bilangan bulat positif dari 1 hingga n.</p>
+                                <p>Contoh: 5! = 5 × 4 × 3 × 2 × 1 = 120</p>
+                                <p>Implementasikan dengan dua cara:</p>
+                                <ol class="content-list">
+                                    <li>Menggunakan loop (for atau while)</li>
+                                    <li>Menggunakan rekursi</li>
+                                </ol>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>FactorialCalculator.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.Scanner;
+
+public class FactorialCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Program Menghitung Faktorial");
+        System.out.println("---------------------------");
+        
+        System.out.print("Masukkan bilangan: ");
+        int number = scanner.nextInt();
+        
+        // Validasi input
+        if (number < 0) {
+            System.out.println("Error: Faktorial tidak didefinisikan untuk bilangan negatif");
+        } else {
+            // Menghitung faktorial dengan loop
+            long factorialLoop = calculateFactorialLoop(number);
+            System.out.println("Faktorial (dengan loop): " + number + "! = " + factorialLoop);
+            
+            // Menghitung faktorial dengan rekursi
+            long factorialRecursion = calculateFactorialRecursion(number);
+            System.out.println("Faktorial (dengan rekursi): " + number + "! = " + factorialRecursion);
+        }
+        
+        scanner.close();
+    }
+    
+    // Menghitung faktorial dengan loop
+    private static long calculateFactorialLoop(int n) {
+        long result = 1;
+        
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        
+        return result;
+    }
+    
+    // Menghitung faktorial dengan rekursi
+    private static long calculateFactorialRecursion(int n) {
+        // Base case
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        
+        // Recursive case
+        return n * calculateFactorialRecursion(n - 1);
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 8: Pola Bintang</h4>
+                                <span class="difficulty medium">Menengah</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang mencetak pola bintang berikut berdasarkan input tinggi dari pengguna:</p>
+                                <ol class="content-list">
+                                    <li>Pola segitiga siku-siku</li>
+                                    <li>Pola segitiga sama kaki</li>
+                                    <li>Pola berlian (diamond)</li>
+                                </ol>
+                                <p>Contoh pola segitiga siku-siku dengan tinggi 5:</p>
+                                <pre>*
+**
+***
+****
+*****</pre>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>StarPattern.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.Scanner;
+
+public class StarPattern {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Program Pola Bintang");
+        System.out.println("-------------------");
+        
+        System.out.print("Masukkan tinggi pola: ");
+        int height = scanner.nextInt();
+        
+        // Validasi input
+        if (height <= 0) {
+            System.out.println("Error: Tinggi harus lebih dari 0");
+        } else {
+            System.out.println("\n1. Pola Segitiga Siku-siku:");
+            printRightTriangle(height);
+            
+            System.out.println("\n2. Pola Segitiga Sama Kaki:");
+            printIsoscelesTriangle(height);
+            
+            System.out.println("\n3. Pola Berlian (Diamond):");
+            printDiamond(height);
+        }
+        
+        scanner.close();
+    }
+    
+    // Mencetak pola segitiga siku-siku
+    private static void printRightTriangle(int height) {
+        for (int i = 1; i <= height; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    
+    // Mencetak pola segitiga sama kaki
+    private static void printIsoscelesTriangle(int height) {
+        for (int i = 1; i <= height; i++) {
+            // Mencetak spasi
+            for (int j = 1; j <= height - i; j++) {
+                System.out.print(" ");
+            }
+            
+            // Mencetak bintang
+            for (int k = 1; k <= 2 * i - 1; k++) {
+                System.out.print("*");
+            }
+            
+            System.out.println();
+        }
+    }
+    
+    // Mencetak pola berlian (diamond)
+    private static void printDiamond(int height) {
+        // Pastikan height ganjil untuk diamond yang sempurna
+        if (height % 2 == 0) {
+            height++;  // Jika genap, tambahkan 1 agar menjadi ganjil
+        }
+        
+        int middle = (height + 1) / 2;
+        
+        // Bagian atas diamond (termasuk tengah)
+        for (int i = 1; i <= middle; i++) {
+            // Mencetak spasi
+            for (int j = 1; j <= middle - i; j++) {
+                System.out.print(" ");
+            }
+            
+            // Mencetak bintang
+            for (int k = 1; k <= 2 * i - 1; k++) {
+                System.out.print("*");
+            }
+            
+            System.out.println();
+        }
+        
+        // Bagian bawah diamond
+        for (int i = middle - 1; i >= 1; i--) {
+            // Mencetak spasi
+            for (int j = 1; j <= middle - i; j++) {
+                System.out.print(" ");
+            }
+            
+            // Mencetak bintang
+            for (int k = 1; k <= 2 * i - 1; k++) {
+                System.out.print("*");
+            }
+            
+            System.out.println();
+        }
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="latihan-lanjutan" class="content-section">
+                    <h2 class="section-title">Latihan Lanjutan</h2>
+                    
+                    <div id="array-collection" class="subsection">
+                        <h3 class="subsection-title">Array & Collection</h3>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 9: Operasi Array</h4>
+                                <span class="difficulty hard">Sulit</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java yang melakukan operasi-operasi berikut pada array:</p>
+                                <ol class="content-list">
+                                    <li>Mencari nilai maksimum dan minimum</li>
+                                    <li>Menghitung rata-rata</li>
+                                    <li>Mengurutkan array (ascending dan descending)</li>
+                                    <li>Mencari elemen tertentu (linear search dan binary search)</li>
+                                    <li>Menggabungkan dua array</li>
+                                </ol>
+                                <p>Program harus menerima input array dari pengguna.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>ArrayOperations.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArrayOperations {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Program Operasi Array");
+        System.out.println("--------------------");
+        
+        // Input array pertama
+        System.out.print("Masukkan jumlah elemen array pertama: ");
+        int size1 = scanner.nextInt();
+        
+        int[] array1 = new int[size1];
+        System.out.println("Masukkan elemen array pertama:");
+        for (int i = 0; i < size1; i++) {
+            System.out.print("Elemen ke-" + (i + 1) + ": ");
+            array1[i] = scanner.nextInt();
+        }
+        
+        // Menampilkan array
+        System.out.println("\nArray pertama: " + Arrays.toString(array1));
+        
+        // 1. Mencari nilai maksimum dan minimum
+        int max = findMax(array1);
+        int min = findMin(array1);
+        System.out.println("\n1. Nilai maksimum: " + max);
+        System.out.println("   Nilai minimum: " + min);
+        
+        // 2. Menghitung rata-rata
+        double average = calculateAverage(array1);
+        System.out.println("\n2. Rata-rata: " + average);
+        
+        // 3. Mengurutkan array
+        int[] ascendingArray = array1.clone();
+        sortAscending(ascendingArray);
+        System.out.println("\n3. Array setelah diurutkan (ascending): " + Arrays.toString(ascendingArray));
+        
+        int[] descendingArray = array1.clone();
+        sortDescending(descendingArray);
+        System.out.println("   Array setelah diurutkan (descending): " + Arrays.toString(descendingArray));
+        
+        // 4. Mencari elemen tertentu
+        System.out.print("\n4. Masukkan elemen yang ingin dicari: ");
+        int searchElement = scanner.nextInt();
+        
+        // Linear search
+        int linearIndex = linearSearch(array1, searchElement);
+        if (linearIndex != -1) {
+            System.out.println("   Linear Search: Elemen " + searchElement + " ditemukan pada indeks " + linearIndex);
+        } else {
+            System.out.println("   Linear Search: Elemen " + searchElement + " tidak ditemukan");
+        }
+        
+        // Binary search (perlu array terurut)
+        int binaryIndex = binarySearch(ascendingArray, searchElement);
+        if (binaryIndex != -1) {
+            System.out.println("   Binary Search: Elemen " + searchElement + " ditemukan pada indeks " + binaryIndex);
+        } else {
+            System.out.println("   Binary Search: Elemen " + searchElement + " tidak ditemukan");
+        }
+        
+        // 5. Menggabungkan dua array
+        System.out.print("\nMasukkan jumlah elemen array kedua: ");
+        int size2 = scanner.nextInt();
+        
+        int[] array2 = new int[size2];
+        System.out.println("Masukkan elemen array kedua:");
+        for (int i = 0; i < size2; i++) {
+            System.out.print("Elemen ke-" + (i + 1) + ": ");
+            array2[i] = scanner.nextInt();
+        }
+        
+        System.out.println("\nArray kedua: " + Arrays.toString(array2));
+        
+        int[] mergedArray = mergeArrays(array1, array2);
+        System.out.println("\n5. Array setelah digabungkan: " + Arrays.toString(mergedArray));
+        
+        scanner.close();
+    }
+    
+    // Mencari nilai maksimum
+    private static int findMax(int[] array) {
+        int max = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+        }
+        return max;
+    }
+    
+    // Mencari nilai minimum
+    private static int findMin(int[] array) {
+        int min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        return min;
+    }
+    
+    // Menghitung rata-rata
+    private static double calculateAverage(int[] array) {
+        int sum = 0;
+        for (int value : array) {
+            sum += value;
+        }
+        return (double) sum / array.length;
+    }
+    
+    // Mengurutkan array (ascending)
+    private static void sortAscending(int[] array) {
+        Arrays.sort(array);
+    }
+    
+    // Mengurutkan array (descending)
+    private static void sortDescending(int[] array) {
+        // Pertama urutkan ascending
+        Arrays.sort(array);
+        
+        // Kemudian balik urutan
+        for (int i = 0; i < array.length / 2; i++) {
+            int temp = array[i];
+            array[i] = array[array.length - 1 - i];
+            array[array.length - 1 - i] = temp;
+        }
+    }
+    
+    // Linear search
+    private static int linearSearch(int[] array, int element) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == element) {
+                return i;
+            }
+        }
+        return -1;  // Elemen tidak ditemukan
+    }
+    
+    // Binary search (array harus terurut)
+    private static int binarySearch(int[] array, int element) {
+        int left = 0;
+        int right = array.length - 1;
+        
+        while (left <= right  {
+        int left = 0;
+        int right = array.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            // Jika elemen ditemukan di tengah
+            if (array[mid] == element) {
+                return mid;
+            }
+            
+            // Jika elemen lebih besar, cari di subarray kanan
+            if (array[mid] < element) {
+                left = mid + 1;
+            }
+            // Jika elemen lebih kecil, cari di subarray kiri
+            else {
+                right = mid - 1;
+            }
+        }
+        
+        return -1;  // Elemen tidak ditemukan
+    }
+    
+    // Menggabungkan dua array
+    private static int[] mergeArrays(int[] array1, int[] array2) {
+        int[] result = new int[array1.length + array2.length];
+        
+        // Menyalin elemen array pertama
+        System.arraycopy(array1, 0, result, 0, array1.length);
+        
+        // Menyalin elemen array kedua
+        System.arraycopy(array2, 0, result, array1.length, array2.length);
+        
+        return result;
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 10: Manajemen Data Mahasiswa dengan ArrayList</h4>
+                                <span class="difficulty hard">Sulit</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java untuk manajemen data mahasiswa menggunakan ArrayList. Program harus memiliki fitur-fitur berikut:</p>
+                                <ol class="content-list">
+                                    <li>Menambahkan data mahasiswa (NIM, nama, jurusan, IPK)</li>
+                                    <li>Menampilkan semua data mahasiswa</li>
+                                    <li>Mencari mahasiswa berdasarkan NIM</li>
+                                    <li>Menghapus data mahasiswa berdasarkan NIM</li>
+                                    <li>Mengurutkan data mahasiswa berdasarkan IPK (descending)</li>
+                                    <li>Menghitung rata-rata IPK</li>
+                                </ol>
+                                <p>Program harus menggunakan konsep OOP dengan membuat class Mahasiswa.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>Mahasiswa.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>public class Mahasiswa {
+    private String nim;
+    private String nama;
+    private String jurusan;
+    private double ipk;
+    
+    // Constructor
+    public Mahasiswa(String nim, String nama, String jurusan, double ipk) {
+        this.nim = nim;
+        this.nama = nama;
+        this.jurusan = jurusan;
+        this.ipk = ipk;
+    }
+    
+    // Getters and Setters
+    public String getNim() {
+        return nim;
+    }
+    
+    public void setNim(String nim) {
+        this.nim = nim;
+    }
+    
+    public String getNama() {
+        return nama;
+    }
+    
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+    
+    public String getJurusan() {
+        return jurusan;
+    }
+    
+    public void setJurusan(String jurusan) {
+        this.jurusan = jurusan;
+    }
+    
+    public double getIpk() {
+        return ipk;
+    }
+    
+    public void setIpk(double ipk) {
+        this.ipk = ipk;
+    }
+    
+    @Override
+    public String toString() {
+        return "NIM: " + nim + ", Nama: " + nama + ", Jurusan: " + jurusan + ", IPK: " + ipk;
+    }
+}</code></pre>
+                                    </div>
+                                    
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>ManajemenMahasiswa.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class ManajemenMahasiswa {
+    private ArrayList<Mahasiswa> daftarMahasiswa;
+    private Scanner scanner;
+    
+    public ManajemenMahasiswa() {
+        daftarMahasiswa = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+    
+    public void tambahMahasiswa() {
+        System.out.println("\n=== Tambah Data Mahasiswa ===");
+        
+        System.out.print("NIM: ");
+        String nim = scanner.nextLine();
+        
+        // Cek apakah NIM sudah ada
+        if (cariMahasiswaByNIM(nim) != null) {
+            System.out.println("Error: Mahasiswa dengan NIM " + nim + " sudah ada");
+            return;
+        }
+        
+        System.out.print("Nama: ");
+        String nama = scanner.nextLine();
+        
+        System.out.print("Jurusan: ");
+        String jurusan = scanner.nextLine();
+        
+        System.out.print("IPK: ");
+        double ipk = Double.parseDouble(scanner.nextLine());
+        
+        // Validasi IPK
+        if (ipk < 0 || ipk > 4.0) {
+            System.out.println("Error: IPK harus dalam rentang 0-4.0");
+            return;
+        }
+        
+        Mahasiswa mahasiswa = new Mahasiswa(nim, nama, jurusan, ipk);
+        daftarMahasiswa.add(mahasiswa);
+        
+        System.out.println("Data mahasiswa berhasil ditambahkan");
+    }
+    
+    public void tampilkanSemuaMahasiswa() {
+        System.out.println("\n=== Daftar Mahasiswa ===");
+        
+        if (daftarMahasiswa.isEmpty()) {
+            System.out.println("Belum ada data mahasiswa");
+            return;
+        }
+        
+        for (int i = 0; i < daftarMahasiswa.size(); i++) {
+            System.out.println((i + 1) + ". " + daftarMahasiswa.get(i));
+        }
+    }
+    
+    public Mahasiswa cariMahasiswaByNIM(String nim) {
+        for (Mahasiswa mahasiswa : daftarMahasiswa) {
+            if (mahasiswa.getNim().equals(nim)) {
+                return mahasiswa;
+            }
+        }
+        return null;
+    }
+    
+    public void cariMahasiswa() {
+        System.out.println("\n=== Cari Mahasiswa ===");
+        
+        System.out.print("Masukkan NIM: ");
+        String nim = scanner.nextLine();
+        
+        Mahasiswa mahasiswa = cariMahasiswaByNIM(nim);
+        
+        if (mahasiswa != null) {
+            System.out.println("Mahasiswa ditemukan:");
+            System.out.println(mahasiswa);
+        } else {
+            System.out.println("Mahasiswa dengan NIM " + nim + " tidak ditemukan");
+        }
+    }
+    
+    public void hapusMahasiswa() {
+        System.out.println("\n=== Hapus Data Mahasiswa ===");
+        
+        System.out.print("Masukkan NIM: ");
+        String nim = scanner.nextLine();
+        
+        Mahasiswa mahasiswa = cariMahasiswaByNIM(nim);
+        
+        if (mahasiswa != null) {
+            daftarMahasiswa.remove(mahasiswa);
+            System.out.println("Data mahasiswa berhasil dihapus");
+        } else {
+            System.out.println("Mahasiswa dengan NIM " + nim + " tidak ditemukan");
+        }
+    }
+    
+    public void urutkanByIPK() {
+        System.out.println("\n=== Urutkan Mahasiswa Berdasarkan IPK (Descending) ===");
+        
+        if (daftarMahasiswa.isEmpty()) {
+            System.out.println("Belum ada data mahasiswa");
+            return;
+        }
+        
+        // Mengurutkan berdasarkan IPK (descending)
+        Collections.sort(daftarMahasiswa, new Comparator<Mahasiswa>() {
+            @Override
+            public int compare(Mahasiswa m1, Mahasiswa m2) {
+                return Double.compare(m2.getIpk(), m1.getIpk());
+            }
+        });
+        
+        System.out.println("Data mahasiswa berhasil diurutkan berdasarkan IPK (descending)");
+        tampilkanSemuaMahasiswa();
+    }
+    
+    public void hitungRataRataIPK() {
+        System.out.println("\n=== Rata-rata IPK ===");
+        
+        if (daftarMahasiswa.isEmpty()) {
+            System.out.println("Belum ada data mahasiswa");
+            return;
+        }
+        
+        double totalIPK = 0;
+        for (Mahasiswa mahasiswa : daftarMahasiswa) {
+            totalIPK += mahasiswa.getIpk();
+        }
+        
+        double rataRata = totalIPK / daftarMahasiswa.size();
+        System.out.printf("Rata-rata IPK: %.2f\n", rataRata);
+    }
+    
+    public void tampilkanMenu() {
+        System.out.println("\n=== MANAJEMEN DATA MAHASISWA ===");
+        System.out.println("1. Tambah Data Mahasiswa");
+        System.out.println("2. Tampilkan Semua Mahasiswa");
+        System.out.println("3. Cari Mahasiswa berdasarkan NIM");
+        System.out.println("4. Hapus Data Mahasiswa");
+        System.out.println("5. Urutkan Mahasiswa berdasarkan IPK");
+        System.out.println("6. Hitung Rata-rata IPK");
+        System.out.println("0. Keluar");
+        System.out.print("Pilih menu: ");
+    }
+    
+    public void jalankan() {
+        int pilihan;
+        
+        do {
+            tampilkanMenu();
+            pilihan = Integer.parseInt(scanner.nextLine());
+            
+            switch (pilihan) {
+                case 1:
+                    tambahMahasiswa();
+                    break;
+                case 2:
+                    tampilkanSemuaMahasiswa();
+                    break;
+                case 3:
+                    cariMahasiswa();
+                    break;
+                case 4:
+                    hapusMahasiswa();
+                    break;
+                case 5:
+                    urutkanByIPK();
+                    break;
+                case 6:
+                    hitungRataRataIPK();
+                    break;
+                case 0:
+                    System.out.println("Terima kasih telah menggunakan program ini");
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid");
+            }
+        } while (pilihan != 0);
+        
+        scanner.close();
+    }
+    
+    public static void main(String[] args) {
+        ManajemenMahasiswa program = new ManajemenMahasiswa();
+        program.jalankan();
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="oop" class="subsection">
+                        <h3 class="subsection-title">OOP</h3>
+                        
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <h4 class="exercise-title">Latihan 11: Sistem Perpustakaan</h4>
+                                <span class="difficulty hard">Sulit</span>
+                            </div>
+                            <div class="exercise-description">
+                                <p>Buatlah program Java untuk sistem perpustakaan sederhana menggunakan konsep OOP. Program harus memiliki fitur-fitur berikut:</p>
+                                <ol class="content-list">
+                                    <li>Menambahkan buku (judul, penulis, tahun terbit, jumlah)</li>
+                                    <li>Menampilkan semua buku</li>
+                                    <li>Mencari buku berdasarkan judul atau penulis</li>
+                                    <li>Meminjam buku</li>
+                                    <li>Mengembalikan buku</li>
+                                    <li>Menampilkan history peminjaman</li>
+                                </ol>
+                                <p>Program harus menggunakan konsep OOP dengan inheritance, encapsulation, dan polymorphism.</p>
+                            </div>
+                            <div class="solution-container">
+                                <button class="solution-toggle">
+                                    <i class="fas fa-chevron-right"></i>
+                                    Lihat Solusi
+                                </button>
+                                <div class="solution-content">
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>Buku.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>public class Buku {
+    private String id;
+    private String judul;
+    private String penulis;
+    private int tahunTerbit;
+    private int jumlah;
+    private int tersedia;
+    
+    // Constructor
+    public Buku(String id, String judul, String penulis, int tahunTerbit, int jumlah) {
+        this.id = id;
+        this.judul = judul;
+        this.penulis = penulis;
+        this.tahunTerbit = tahunTerbit;
+        this.jumlah = jumlah;
+        this.tersedia = jumlah;
+    }
+    
+    // Getters and Setters
+    public String getId() {
+        return id;
+    }
+    
+    public String getJudul() {
+        return judul;
+    }
+    
+    public void setJudul(String judul) {
+        this.judul = judul;
+    }
+    
+    public String getPenulis() {
+        return penulis;
+    }
+    
+    public void setPenulis(String penulis) {
+        this.penulis = penulis;
+    }
+    
+    public int getTahunTerbit() {
+        return tahunTerbit;
+    }
+    
+    public void setTahunTerbit(int tahunTerbit) {
+        this.tahunTerbit = tahunTerbit;
+    }
+    
+    public int getJumlah() {
+        return jumlah;
+    }
+    
+    public void setJumlah(int jumlah) {
+        this.jumlah = jumlah;
+    }
+    
+    public int getTersedia() {
+        return tersedia;
+    }
+    
+    public void setTersedia(int tersedia) {
+        this.tersedia = tersedia;
+    }
+    
+    // Method untuk meminjam buku
+    public boolean pinjam() {
+        if (tersedia > 0) {
+            tersedia--;
+            return true;
+        }
+        return false;
+    }
+    
+    // Method untuk mengembalikan buku
+    public void kembali() {
+        if (tersedia < jumlah) {
+            tersedia++;
+        }
+    }
+    
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Judul: " + judul + ", Penulis: " + penulis + 
+               ", Tahun Terbit: " + tahunTerbit + ", Jumlah: " + jumlah + 
+               ", Tersedia: " + tersedia;
+    }
+}</code></pre>
+                                    </div>
+                                    
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>Peminjaman.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.time.LocalDate;
+
+public class Peminjaman {
+    private String id;
+    private String idBuku;
+    private String judulBuku;
+    private String namaPeminjam;
+    private LocalDate tanggalPinjam;
+    private LocalDate tanggalKembali;
+    private boolean statusKembali;
+    
+    // Constructor
+    public Peminjaman(String id, String idBuku, String judulBuku, String namaPeminjam) {
+        this.id = id;
+        this.idBuku = idBuku;
+        this.judulBuku = judulBuku;
+        this.namaPeminjam = namaPeminjam;
+        this.tanggalPinjam = LocalDate.now();
+        this.tanggalKembali = null;
+        this.statusKembali = false;
+    }
+    
+    // Getters and Setters
+    public String getId() {
+        return id;
+    }
+    
+    public String getIdBuku() {
+        return idBuku;
+    }
+    
+    public String getJudulBuku() {
+        return judulBuku;
+    }
+    
+    public String getNamaPeminjam() {
+        return namaPeminjam;
+    }
+    
+    public LocalDate getTanggalPinjam() {
+        return tanggalPinjam;
+    }
+    
+    public LocalDate getTanggalKembali() {
+        return tanggalKembali;
+    }
+    
+    public boolean isStatusKembali() {
+        return statusKembali;
+    }
+    
+    // Method untuk mengembalikan buku
+    public void kembalikan() {
+        this.tanggalKembali = LocalDate.now();
+        this.statusKembali = true;
+    }
+    
+    @Override
+    public String toString() {
+        String status = statusKembali ? "Sudah dikembalikan" : "Belum dikembalikan";
+        String tanggalKembaliStr = tanggalKembali != null ? tanggalKembali.toString() : "-";
+        
+        return "ID: " + id + ", Buku: " + judulBuku + " (" + idBuku + ")" +
+               ", Peminjam: " + namaPeminjam + ", Tanggal Pinjam: " + tanggalPinjam +
+               ", Tanggal Kembali: " + tanggalKembaliStr + ", Status: " + status;
+    }
+}</code></pre>
+                                    </div>
+                                    
+                                    <div class="code-block">
+                                        <div class="code-header">
+                                            <span>Perpustakaan.java</span>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                        <pre><code>import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.UUID;
+
+public class Perpustakaan {
+    private ArrayList<Buku> daftarBuku;
+    private ArrayList<Peminjaman> daftarPeminjaman;
+    private Scanner scanner;
+    
+    public Perpustakaan() {
+        daftarBuku = new ArrayList<>();
+        daftarPeminjaman = new ArrayList<>();
+        scanner = new Scanner(System.in);
+        
+        // Menambahkan beberapa buku contoh
+        tambahBukuContoh();
+    }
+    
+    private void tambahBukuContoh() {
+        daftarBuku.add(new Buku("B001", "Java Programming", "John Doe", 2020, 5));
+        daftarBuku.add(new Buku("B002", "Python Basics", "Jane Smith", 2019, 3));
+        daftarBuku.add(new Buku("B003", "Data Structures and Algorithms", "Robert Johnson", 2018, 2));
+    }
+    
+    public void tambahBuku() {
+        System.out.println("\n=== Tambah Buku ===");
+        
+        String id = "B" + String.format("%03d", daftarBuku.size() + 1);
+        
+        System.out.print("Judul: ");
+        String judul = scanner.nextLine();
+        
+        System.out.print("Penulis: ");
+        String penulis = scanner.nextLine();
+        
+        System.out.print("Tahun Terbit: ");
+        int tahunTerbit = Integer.parseInt(scanner.nextLine());
+        
+        System.out.print("Jumlah: ");
+        int jumlah = Integer.parseInt(scanner.nextLine());
+        
+        Buku buku = new Buku(id, judul, penulis, tahunTerbit, jumlah);
+        daftarBuku.add(buku);
+        
+        System.out.println("Buku berhasil ditambahkan dengan ID: " + id);
+    }
+    
+    public void tampilkanSemuaBuku() {
+        System.out.println("\n=== Daftar Buku ===");
+        
+        if (daftarBuku.isEmpty()) {
+            System.out.println("Belum ada buku");
+            return;
+        }
+        
+        for (int i = 0; i < daftarBuku.size(); i++) {
+            System.out.println((i + 1) + ". " + daftarBuku.get(i));
+        }
+    }
+    
+    public void cariBuku() {
+        System.out.println("\n=== Cari Buku ===");
+        
+        System.out.print("Masukkan judul atau penulis: ");
+        String keyword = scanner.nextLine().toLowerCase();
+        
+        ArrayList<Buku> hasilPencarian = new ArrayList<>();
+        
+        for (Buku buku : daftarBuku) {
+            if (buku.getJudul().toLowerCase().contains(keyword) || 
+                buku.getPenulis().toLowerCase().contains(keyword)) {
+                hasilPencarian.add(buku);
+            }
+        }
+        
+        if (hasilPencarian.isEmpty()) {
+            System.out.println("Buku tidak ditemukan");
+        } else {
+            System.out.println("Hasil pencarian:");
+            for (int i = 0; i < hasilPencarian.size(); i++) {
+                System.out.println((i + 1) + ". " + hasilPencarian.get(i));
+            }
+        }
+    }
+    
+    public void pinjamBuku() {
+        System.out.println("\n=== Pinjam Buku ===");
+        
+        tampilkanSemuaBuku();
+        
+        System.out.print("Masukkan ID buku yang ingin dipinjam: ");
+        String idBuku = scanner.nextLine();
+        
+        Buku buku = null;
+        for (Buku b : daftarBuku) {
+            if (b.getId().equals(idBuku)) {
+                buku = b;
+                break;
+            }
+        }
+        
+        if (buku == null) {
+            System.out.println("Buku dengan ID " + idBuku + " tidak ditemukan");
+            return;
+        }
+        
+        if (buku.getTersedia() <= 0) {
+            System.out.println("Maaf, buku " + buku.getJudul() + " sedang tidak tersedia");
+            return;
+        }
+        
+        System.out.print("Nama Peminjam: ");
+        String namaPeminjam = scanner.nextLine();
+        
+        // Generate ID peminjaman
+        String idPeminjaman = "P" + UUID.randomUUID().toString().substring(0, 8);
+        
+        // Buat objek peminjaman
+        Peminjaman peminjaman = new Peminjaman(idPeminjaman, buku.getId(), buku.getJudul(), namaPeminjam);
+        daftarPeminjaman.add(peminjaman);
+        
+        // Update status buku
+        buku.pinjam();
+        
+        System.out.println("Buku berhasil dipinjam dengan ID peminjaman: " + idPeminjaman);
+    }
+    
+    public void kembalikanBuku() {
+        System.out.println("\n=== Kembalikan Buku ===");
+        
+        System.out.print("Masukkan ID peminjaman: ");
+        String idPeminjaman = scanner.nextLine();
+        
+        Peminjaman peminjaman = null;
+        for (Peminjaman p : daftarPeminjaman) {
+            if (p.getId().equals(idPeminjaman)) {
+                peminjaman = p;
+                break;
+            }
+        }
+        
+        if (peminjaman == null) {
+            System.out.println("Peminjaman dengan ID " + idPeminjaman + " tidak ditemukan");
+            return;
+        }
+        
+        if (peminjaman.isStatusKembali()) {
+            System.out.println("Buku sudah dikembalikan sebelumnya");
+            return;
+        }
+        
+        // Update status peminjaman
+        peminjaman.kembalikan();
+        
+        // Update status buku
+        for (Buku buku : daftarBuku) {
+            if (buku.getId().equals(peminjaman.getIdBuku())) {
+                buku.kembali();
+                break;
+            }
+        }
+        
+        System.out.println("Buku berhasil dikembalikan");
+    }
+    
+    public void tampilkanHistoryPeminjaman() {
+        System.out.println("\n=== History Peminjaman ===");
+        
+        if (daftarPeminjaman.isEmpty()) {
+            System.out.println("Belum ada history peminjaman");
+            return;
+        }
+        
+        for (int i = 0; i < daftarPeminjaman.size(); i++) {
+            System.out.println((i + 1) + ". " + daftarPeminjaman.get(i));
+        }
+    }
+    
+    public void tampilkanMenu() {
+        System.out.println("\n=== SISTEM PERPUSTAKAAN ===");
+        System.out.println("1. Tambah Buku");
+        System.out.println("2. Tampilkan Semua Buku");
+        System.out.println("3. Cari Buku");
+        System.out.println("4. Pinjam Buku");
+        System.out.println("5. Kembalikan Buku");
+        System.out.println("6. Tampilkan History Peminjaman");
+        System.out.println("0. Keluar");
+        System.out.print("Pilih menu: ");
+    }
+    
+    public void jalankan() {
+        int pilihan;
+        
+        do {
+            tampilkanMenu();
+            pilihan = Integer.parseInt(scanner.nextLine());
+            
+            switch (pilihan) {
+                case 1:
+                    tambahBuku();
+                    break;
+                case 2:
+                    tampilkanSemuaBuku();
+                    break;
+                case 3:
+                    cariBuku();
+                    break;
+                case 4:
+                    pinjamBuku();
+                    break;
+                case 5:
+                    kembalikanBuku();
+                    break;
+                case 6:
+                    tampilkanHistoryPeminjaman();
+                    break;
+                case 0:
+                    System.out.println("Terima kasih telah menggunakan sistem perpustakaan");
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid");
+            }
+        } while (pilihan != 0);
+        
+        scanner.close();
+    }
+    
+    public static void main(String[] args) {
+        Perpustakaan perpustakaan = new Perpustakaan();
+        perpustakaan.jalankan();
+    }
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="projects" class="tab-content">
+                <section id="mini-projects" class="content-section">
+                    <h2 class="section-title">Mini Projects</h2>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">1. Aplikasi To-Do List</h3>
+                            <div class="project-meta">
+                                <span><i class="fas fa-clock"></i> Estimasi: 3-4 jam</span>
+                                <span><i class="fas fa-signal"></i> Level: Menengah</span>
+                            </div>
+                        </div>
+                        <div class="project-description">
+                            <p>Buatlah aplikasi To-Do List sederhana yang memungkinkan pengguna untuk mengelola daftar tugas mereka. Aplikasi harus memiliki antarmuka konsol yang interaktif.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Fitur yang harus diimplementasikan:</h4>
+                            <ul class="content-list">
+                                <li>Menambahkan tugas baru dengan judul, deskripsi, dan deadline</li>
+                                <li>Menampilkan semua tugas</li>
+                                <li>Menandai tugas sebagai selesai</li>
+                                <li>Menghapus tugas</li>
+                                <li>Mencari tugas berdasarkan judul</li>
+                                <li>Mengurutkan tugas berdasarkan deadline</li>
+                                <li>Menyimpan dan memuat data tugas dari file</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            Download Template
+                        </a>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">2. Aplikasi Kalkulator Ilmiah</h3>
+                            <div class="project-meta">
+                                <span><i class="fas fa-clock"></i> Estimasi: 4-5 jam</span>
+                                <span><i class="fas fa-signal"></i> Level: Menengah</span>
+                            </div>
+                        </div>
+                        <div class="project-description">
+                            <p>Buatlah aplikasi kalkulator ilmiah yang dapat melakukan berbagai operasi matematika, termasuk operasi dasar dan fungsi matematika lanjutan.</p>
+                        </div  termasuk operasi dasar dan fungsi matematika lanjutan.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Fitur yang harus diimplementasikan:</h4>
+                            <ul class="content-list">
+                                <li>Operasi dasar: penjumlahan, pengurangan, perkalian, pembagian</li>
+                                <li>Operasi lanjutan: perpangkatan, akar kuadrat, logaritma</li>
+                                <li>Fungsi trigonometri: sin, cos, tan</li>
+                                <li>Konversi satuan: derajat ke radian dan sebaliknya</li>
+                                <li>Memori untuk menyimpan hasil perhitungan</li>
+                                <li>Riwayat perhitungan</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            Download Template
+                        </a>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">3. Game Tic-Tac-Toe</h3>
+                            <div class="project-meta">
+                                <span><i class="fas fa-clock"></i> Estimasi: 3-4 jam</span>
+                                <span><i class="fas fa-signal"></i> Level: Menengah</span>
+                            </div>
+                        </div>
+                        <div class="project-description">
+                            <p>Buatlah game Tic-Tac-Toe (atau dikenal juga sebagai "X dan O") yang dapat dimainkan oleh dua pemain atau melawan komputer.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Fitur yang harus diimplementasikan:</h4>
+                            <ul class="content-list">
+                                <li>Papan permainan 3x3</li>
+                                <li>Mode permainan: pemain vs pemain atau pemain vs komputer</li>
+                                <li>Validasi input dan gerakan</li>
+                                <li>Deteksi pemenang atau seri</li>
+                                <li>Sistem skor</li>
+                                <li>Opsi untuk bermain ulang</li>
+                                <li>AI sederhana untuk mode pemain vs komputer</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            Download Template
+                        </a>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">4. Aplikasi Manajemen Kontak</h3>
+                            <div class="project-meta">
+                                <span><i class="fas fa-clock"></i> Estimasi: 5-6 jam</span>
+                                <span><i class="fas fa-signal"></i> Level: Lanjutan</span>
+                            </div>
+                        </div>
+                        <div class="project-description">
+                            <p>Buatlah aplikasi manajemen kontak yang memungkinkan pengguna untuk menyimpan dan mengelola informasi kontak mereka.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Fitur yang harus diimplementasikan:</h4>
+                            <ul class="content-list">
+                                <li>Menambahkan kontak baru dengan nama, nomor telepon, email, dan alamat</li>
+                                <li>Menampilkan semua kontak</li>
+                                <li>Mencari kontak berdasarkan nama atau nomor telepon</li>
+                                <li>Mengedit informasi kontak</li>
+                                <li>Menghapus kontak</li>
+                                <li>Mengelompokkan kontak berdasarkan kategori</li>
+                                <li>Menyimpan dan memuat data kontak dari file</li>
+                                <li>Mengekspor kontak ke format CSV</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            Download Template
+                        </a>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">5. Aplikasi Manajemen Inventaris</h3>
+                            <div class="project-meta">
+                                <span><i class="fas fa-clock"></i> Estimasi: 6-8 jam</span>
+                                <span><i class="fas fa-signal"></i> Level: Lanjutan</span>
+                            </div>
+                        </div>
+                        <div class="project-description">
+                            <p>Buatlah aplikasi manajemen inventaris untuk toko atau gudang yang memungkinkan pengguna untuk melacak stok barang.</p>
+                        </div>
+                        <div class="project-requirements">
+                            <h4>Fitur yang harus diimplementasikan:</h4>
+                            <ul class="content-list">
+                                <li>Menambahkan produk baru dengan nama, deskripsi, harga, dan jumlah</li>
+                                <li>Menampilkan semua produk</li>
+                                <li>Mencari produk berdasarkan nama atau kategori</li>
+                                <li>Memperbarui informasi produk</li>
+                                <li>Menambah atau mengurangi stok produk</li>
+                                <li>Mencatat transaksi penjualan dan pembelian</li>
+                                <li>Menampilkan laporan stok dan transaksi</li>
+                                <li>Notifikasi untuk stok yang hampir habis</li>
+                                <li>Menyimpan dan memuat data dari file atau database</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            Download Template
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <div id="quiz" class="tab-content">
+                <section id="quiz-section" class="content-section">
+                    <h2 class="section-title">Quiz Java</h2>
+                    
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            <h3>1. Apa output dari kode berikut?</h3>
+                            <div class="code-block">
+                                <pre><code>public class Test {
+    public static void main(String[] args) {
+        int x = 5;
+        System.out.println(x++ + ++x);
+    }
+}</code></pre>
+                            </div>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" data-correct="false">10</li>
+                                <li class="quiz-option" data-correct="false">11</li>
+                                <li class="quiz-option" data-correct="true">12</li>
+                                <li class="quiz-option" data-correct="false">13</li>
+                            </ul>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h3>2. Manakah dari berikut ini yang bukan merupakan tipe data primitif di Java?</h3>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" data-correct="false">int</li>
+                                <li class="quiz-option" data-correct="false">boolean</li>
+                                <li class="quiz-option" data-correct="false">char</li>
+                                <li class="quiz-option" data-correct="true">String</li>
+                            </ul>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h3>3. Apa yang akan terjadi jika kita mencoba mengakses indeks di luar batas array?</h3>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" data-correct="false">Program akan mengembalikan nilai null</li>
+                                <li class="quiz-option" data-correct="true">Program akan melempar ArrayIndexOutOfBoundsException</li>
+                                <li class="quiz-option" data-correct="false">Program akan mengembalikan nilai 0</li>
+                                <li class="quiz-option" data-correct="false">Program akan berhenti tanpa pesan error</li>
+                            </ul>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h3>4. Apa perbedaan utama antara ArrayList dan LinkedList?</h3>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" data-correct="false">ArrayList tidak dapat menyimpan tipe data primitif, sedangkan LinkedList bisa</li>
+                                <li class="quiz-option" data-correct="false">ArrayList memiliki ukuran tetap, sedangkan LinkedList memiliki ukuran dinamis</li>
+                                <li class="quiz-option" data-correct="true">ArrayList lebih cepat untuk akses acak, sedangkan LinkedList lebih cepat untuk operasi insert/delete</li>
+                                <li class="quiz-option" data-correct="false">ArrayList hanya dapat menyimpan objek String, sedangkan LinkedList dapat menyimpan semua jenis objek</li>
+                            </ul>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <div class="quiz-question">
+                            <h3>5. Apa output dari kode berikut?</h3>
+                            <div class="code-block">
+                                <pre><code>public class Test {
+    public static void main(String[] args) {
+        String s1 = "Hello";
+        String s2 = "Hello";
+        String s3 = new String("Hello");
+        
+        System.out.println(s1 == s2);
+        System.out.println(s1 == s3);
+        System.out.println(s1.equals(s3));
+    }
+}</code></pre>
+                            </div>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" data-correct="false">false, false, false</li>
+                                <li class="quiz-option" data-correct="false">true, true, true</li>
+                                <li class="quiz-option" data-correct="true">true, false, true</li>
+                                <li class="quiz-option" data-correct="false">false, true, true</li>
+                            </ul>
+                            <div class="quiz-feedback"></div>
+                        </div>
+                        
+                        <button class="quiz-btn" id="check-answers">Periksa Jawaban</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        // Check for saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            htmlElement.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Menu section toggle
+        const menuSections = document.querySelectorAll('.menu-section-title');
+        menuSections.forEach(section => {
+            section.addEventListener('click', () => {
+                section.classList.toggle('collapsed');
+                const menuItems = section.nextElementSibling;
+                menuItems.style.display = section.classList.contains('collapsed') ? 'none' : 'block';
+            });
+        });
+
+        // Copy code functionality
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.closest('.code-block');
+                const code = codeBlock.querySelector('code').textContent;
+                
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                });
+            });
+        });
+
+        // Solution toggle functionality
+        const solutionToggles = document.querySelectorAll('.solution-toggle');
+        solutionToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                const solutionContent = toggle.nextElementSibling;
+                solutionContent.classList.toggle('active');
+                
+                if (toggle.classList.contains('active')) {
+                    toggle.querySelector('i').style.transform = 'rotate(90deg)';
+                } else {
+                    toggle.querySelector('i').style.transform = 'rotate(0)';
+                }
+            });
+        });
+
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Quiz functionality
+        const checkAnswersBtn = document.getElementById('check-answers');
+        const quizOptions = document.querySelectorAll('.quiz-option');
+        
+        quizOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected class from all options in the same question
+                const questionOptions = option.parentElement.querySelectorAll('.quiz-option');
+                questionOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Add selected class to clicked option
+                option.classList.add('selected');
+            });
+        });
+        
+        checkAnswersBtn.addEventListener('click', () => {
+            const questions = document.querySelectorAll('.quiz-question');
+            let score = 0;
+            
+            questions.forEach(question => {
+                const selectedOption = question.querySelector('.quiz-option.selected');
+                const feedback = question.querySelector('.quiz-feedback');
+                
+                if (selectedOption) {
+                    const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
+                    
+                    // Remove previous classes
+                    selectedOption.classList.remove('correct', 'incorrect');
+                    feedback.classList.remove('correct', 'incorrect');
+                    
+                    if (isCorrect) {
+                        selectedOption.classList.add('correct');
+                        feedback.classList.add('correct');
+                        feedback.textContent = 'Benar!';
+                        feedback.style.display = 'block';
+                        score++;
+                    } else {
+                        selectedOption.classList.add('incorrect');
+                        feedback.classList.add('incorrect');
+                        feedback.textContent = 'Salah. Silakan coba lagi.';
+                        feedback.style.display = 'block';
+                    }
+                } else {
+                    feedback.classList.add('incorrect');
+                    feedback.textContent = 'Silakan pilih jawaban.';
+                    feedback.style.display = 'block';
+                }
+            });
+            
+            alert(`Skor Anda: ${score}/${questions.length}`);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active menu item
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.parentElement.classList.add('active');
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.toLowerCase().trim();
+                if (searchTerm) {
+                    // Simple search within the page
+                    const sections = document.querySelectorAll('.content-section, .exercise-card, .project-card');
+                    let found = false;
+                    
+                    sections.forEach(section => {
+                        if (section.textContent.toLowerCase().includes(searchTerm)) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            found = true;
+                            return;
+                        }
+                    });
+                    
+                    if (!found) {
+                        alert('Maaf, kata kunci "' + searchTerm + '" tidak ditemukan.');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

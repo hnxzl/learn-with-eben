@@ -1,0 +1,2919 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Java dari Nol - Learn With Eben</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --text-secondary: #4b5563;
+            --bg-color: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --code-bg: #1e293b;
+            --code-color: #e2e8f0;
+            --header-height: 70px;
+            --sidebar-width: 280px;
+        }
+
+        .dark {
+            --primary-color: #3b82f6;
+            --primary-hover: #60a5fa;
+            --text-color: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --bg-color: #111827;
+            --bg-secondary: #1f2937;
+            --border-color: #374151;
+            --card-bg: #1f2937;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            --code-bg: #0f172a;
+            --code-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 8px 15px 8px 35px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background-color: var(--bg-secondary);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            width: 200px;
+            transition: width 0.3s, box-shadow 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+            width: 250px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .course-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            position: sticky;
+            top: var(--header-height);
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+            transition: background-color 0.3s;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-progress {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 15%; /* Adjust based on actual progress */
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .course-menu {
+            list-style: none;
+        }
+
+        .menu-section {
+            margin-bottom: 15px;
+        }
+
+        .menu-section-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .menu-section-title i {
+            margin-right: 8px;
+            transition: transform 0.3s;
+        }
+
+        .menu-section-title.collapsed i {
+            transform: rotate(-90deg);
+        }
+
+        .menu-items {
+            list-style: none;
+            padding-left: 25px;
+            margin-top: 5px;
+        }
+
+        .menu-item {
+            margin-bottom: 8px;
+        }
+
+        .menu-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.2s;
+        }
+
+        .menu-item a:hover {
+            color: var(--primary-color);
+        }
+
+        .menu-item.active a {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+        }
+
+        .content-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .content-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .content-meta span {
+            display: flex;
+            align-items: center;
+        }
+
+        .content-meta i {
+            margin-right: 5px;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .subsection {
+            margin-bottom: 25px;
+        }
+
+        .subsection-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .content-text {
+            margin-bottom: 15px;
+        }
+
+        .content-list {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-list li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #94a3b8;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #94a3b8;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .note-box {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .note-box-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .video-container {
+            margin: 30px 0;
+        }
+
+        .video-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .video-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .video-btn i {
+            margin-right: 10px;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 6px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .nav-button:hover {
+            background-color: var(--border-color);
+        }
+
+        .nav-button.next {
+            margin-left: auto;
+        }
+
+        .nav-button i {
+            font-size: 0.9rem;
+        }
+
+        .nav-button.prev i {
+            margin-right: 8px;
+        }
+
+        .nav-button.next i {
+            margin-left: 8px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+                --sidebar-width: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .course-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 10px;
+            }
+
+            .main-content {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .content-title {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Learn With Eben
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#courses">Courses</a>
+                <a href="java-exercises.html">Latihan</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search in course...">
+                </div>
+                <button class="theme-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="course-container">
+        <aside class="sidebar">
+            <h2 class="course-title">Belajar Java dari Nol</h2>
+            
+            <div class="course-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-text">15% selesai</div>
+            </div>
+            
+            <ul class="course-menu">
+                <li class="menu-section">
+                    <div class="menu-section-title">
+                        <i class="fas fa-chevron-down"></i>
+                        Pengenalan
+                    </div>
+                    <ul class="menu-items">
+                        <li class="menu-item active"><a href="#pendahuluan">Pendahuluan Java</a></li>
+                        <li class="menu-item"><a href="#struktur">Struktur Program Java</a></li>
+                    </ul>
+                </li>
+                <li class="menu-section">
+                    <div class="menu-section-title">
+                        <i class="fas fa-chevron-down"></i>
+                        Dasar-Dasar Java
+                    </div>
+                    <ul class="menu-items">
+                        <li class="menu-item"><a href="#main-method">Mengupas Tuntas Main Method</a></li>
+                        <li class="menu-item"><a href="#modifier">Public vs Private Modifier</a></li>
+                        <li class="menu-item"><a href="#static">Static Keyword</a></li>
+                        <li class="menu-item"><a href="#void">Void vs Non-Void Methods</a></li>
+                        <li class="menu-item"><a href="#args">String[] args: Opsional atau Wajib?</a></li>
+                    </ul>
+                </li>
+                <li class="menu-section">
+                    <div class="menu-section-title">
+                        <i class="fas fa-chevron-down"></i>
+                        Variabel dan Tipe Data
+                    </div>
+                    <ul class="menu-items">
+                        <li class="menu-item"><a href="#variabel">Variabel dan Tipe Data</a></li>
+                        <li class="menu-item"><a href="#float-double">Float vs Double</a></li>
+                        <li class="menu-item"><a href="#operator">Operator dalam Java</a></li>
+                    </ul>
+                </li>
+                <li class="menu-section">
+                    <div class="menu-section-title">
+                        <i class="fas fa-chevron-down"></i>
+                        Struktur Kontrol
+                    </div>
+                    <ul class="menu-items">
+                        <li class="menu-item"><a href="#looping">Looping (Perulangan)</a></li>
+                        <li class="menu-item"><a href="#array">Memahami Array</a></li>
+                        <li class="menu-item"><a href="#percabangan">Percabangan dalam Java</a></li>
+                        <li class="menu-item"><a href="#array-arraylist">Array vs ArrayList</a></li>
+                    </ul>
+                </li>
+                <li class="menu-section">
+                    <div class="menu-section-title">
+                        <i class="fas fa-chevron-down"></i>
+                        OOP
+                    </div>
+                    <ul class="menu-items">
+                        <li class="menu-item"><a href="#oop">Konsep OOP dalam Java</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="content-title">Belajar Java dari Nol</h1>
+                <div class="content-meta">
+                    <span><i class="fas fa-book"></i> 15 Materi</span>
+                    <span><i class="fas fa-clock"></i> 10 Jam</span>
+                    <span><i class="fas fa-signal"></i> Pemula</span>
+                </div>
+            </div>
+
+            <section id="pendahuluan" class="content-section">
+                <h2 class="section-title">1. Pendahuluan Java</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Definisi Java</h3>
+                    <p class="content-text">
+                        Java adalah bahasa pemrograman berorientasi objek (OOP) yang dikembangkan oleh Sun Microsystems (sekarang dimiliki oleh Oracle) pada tahun 1995. Java dirancang dengan filosofi "Write Once, Run Anywhere" (WORA), yang memungkinkan kode Java dijalankan di berbagai platform tanpa perlu dikompilasi ulang.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Keunggulan Java</h3>
+                    <ul class="content-list">
+                        <li><strong>Platform Independen:</strong> Kode Java dapat dijalankan di berbagai sistem operasi yang memiliki Java Virtual Machine (JVM).</li>
+                        <li><strong>Pustaka yang Luas:</strong> Java memiliki koleksi pustaka standar yang kaya, memudahkan pengembangan berbagai jenis aplikasi.</li>
+                        <li><strong>Penggunaan Luas:</strong> Java digunakan dalam berbagai bidang, mulai dari aplikasi desktop, aplikasi web, aplikasi mobile (Android), hingga sistem embedded.</li>
+                    </ul>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Catatan</div>
+                    <p>Java adalah salah satu bahasa pemrograman paling populer di dunia, dengan jutaan pengembang aktif dan digunakan oleh perusahaan-perusahaan besar seperti Google, Amazon, dan Netflix.</p>
+                </div>
+            </section>
+
+            <section id="struktur" class="content-section">
+                <h2 class="section-title">2. Struktur Program Java</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Class: Blueprint untuk objek</h3>
+                    <p class="content-text">
+                        Class adalah blueprint atau template yang mendefinisikan atribut dan perilaku objek. Setiap program Java minimal memiliki satu class. Class menjadi dasar dari pemrograman berorientasi objek di Java.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Method: Blok kode untuk tugas spesifik</h3>
+                    <p class="content-text">
+                        Method adalah blok kode yang melakukan tugas tertentu dan dapat dipanggil untuk dieksekusi. Method dapat menerima parameter dan mengembalikan nilai. Method memungkinkan kita untuk mengorganisir kode menjadi unit-unit fungsional yang dapat digunakan kembali.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Main Method: Titik awal eksekusi program</h3>
+                    <p class="content-text">
+                        Method main adalah titik awal eksekusi program Java. Setiap aplikasi Java yang dapat dijalankan harus memiliki method main. JVM akan mencari method main sebagai titik masuk untuk menjalankan program.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>BasicStructure.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Deklarasi class
+public class BasicStructure {
+    
+    // Variabel instance
+    private String message;
+    
+    // Constructor
+    public BasicStructure(String message) {
+        this.message = message;
+    }
+    
+    // Method
+    public void displayMessage() {
+        System.out.println(message);
+    }
+    
+    // Main method - titik awal eksekusi
+    public static void main(String[] args) {
+        // Membuat objek dari class BasicStructure
+        BasicStructure obj = new BasicStructure("Halo, Dunia Java!");
+        
+        // Memanggil method
+        obj.displayMessage();
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="video-container">
+                    <a href="https://youtu.be/YZbDIiEBE_M?si=yvNfla78Cf6bvjiN" target="_blank" rel="noopener noreferrer" class="video-btn">
+                        <i class="fas fa-play-circle"></i>
+                        Lihat Tutorial Video
+                    </a>
+                </div>
+            </section>
+
+            <section id="main-method" class="content-section">
+                <h2 class="section-title">3. Mengupas Tuntas Main Method</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Main method memiliki sintaks khusus yang harus diikuti agar program Java dapat dijalankan:
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>MainMethod.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>public static void main(String[] args) {
+    // Kode program
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">public: Modifier akses</h3>
+                    <p class="content-text">
+                        Keyword <code>public</code> menunjukkan bahwa method main dapat diakses dari mana saja, termasuk oleh JVM saat menjalankan program. JVM harus dapat mengakses method main, sehingga modifier akses harus public.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">static: Digunakan tanpa instansiasi objek</h3>
+                    <p class="content-text">
+                        Keyword <code>static</code> memungkinkan method main dipanggil tanpa perlu membuat instance dari class. JVM dapat langsung memanggil method main tanpa membuat objek terlebih dahulu.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">void: Tidak mengembalikan nilai</h3>
+                    <p class="content-text">
+                        Keyword <code>void</code> menunjukkan bahwa method main tidak mengembalikan nilai apapun. Method main dijalankan oleh JVM dan tidak perlu mengembalikan nilai.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">String[] args: Parameter command line</h3>
+                    <p class="content-text">
+                        Parameter <code>String[] args</code> adalah array yang berisi argumen command line yang diberikan saat menjalankan program. Ini memungkinkan program menerima input dari pengguna saat dijalankan dari command line.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>CommandLineArgs.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>public class CommandLineArgs {
+    public static void main(String[] args) {
+        System.out.println("Jumlah argumen: " + args.length);
+        
+        for (int i = 0; i < args.length; i++) {
+            System.out.println("Argumen " + i + ": " + args[i]);
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="modifier" class="content-section">
+                <h2 class="section-title">4. Public vs Private Modifier</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Java memiliki beberapa modifier akses yang menentukan visibilitas dan aksesibilitas class, variabel, dan method. Dua modifier akses yang paling umum digunakan adalah <code>public</code> dan <code>private</code>.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Public: Dapat diakses dari mana saja</h3>
+                    <p class="content-text">
+                        Modifier <code>public</code> memungkinkan akses dari class manapun, baik dalam package yang sama maupun berbeda. Ini adalah modifier akses yang paling terbuka.
+                    </p>
+                    <ul class="content-list">
+                        <li>Class, method, atau variabel dengan modifier <code>public</code> dapat diakses dari mana saja</li>
+                        <li>Biasanya digunakan untuk API yang ingin diekspos ke pengguna lain</li>
+                        <li>Main method harus public agar dapat diakses oleh JVM</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Private: Hanya dapat diakses dalam kelas</h3>
+                    <p class="content-text">
+                        Modifier <code>private</code> membatasi akses hanya dari dalam class yang sama. Ini adalah bentuk enkapsulasi yang paling ketat.
+                    </p>
+                    <ul class="content-list">
+                        <li>Method atau variabel dengan modifier <code>private</code> hanya dapat diakses dari dalam class yang sama</li>
+                        <li>Biasanya digunakan untuk menyembunyikan implementasi internal dan melindungi data</li>
+                        <li>Merupakan praktik yang baik untuk membuat variabel instance sebagai private dan menyediakan method getter dan setter untuk mengaksesnya</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>AccessModifiers.java</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code>public class AccessModifiers {
+    // Dapat diakses dari mana saja
+    public String publicVar = "Ini variabel public";
+    
+    // Hanya dapat diakses dalam class ini
+    private String privateVar = "Ini variabel private";
+    
+    // Method public
+    public void publicMethod() {
+        System.out.println("Ini method public");
+        // Method public dapat mengakses variabel private
+        System.out.println(privateVar);
+    }
+    
+    // Method private
+    private void privateMethod() {
+        System.out.println("Ini method private");
+    }
+    
+    // Method untuk mendemonstrasikan akses
+    public void demonstrateAccess() {
+        // Dapat memanggil method private dari dalam class yang sama
+        privateMethod();
+    }
+    
+    public static void main(String[] args) {
+        AccessModifiers obj = new AccessModifiers();
+        
+        // Akses ke variabel dan method public
+        System.out.println(obj.publicVar);
+        obj.publicMethod();
+        
+        // Akses ke method yang memanggil method private
+        obj.demonstrateAccess();
+        
+        // Kode berikut akan menyebabkan error kompilasi:
+        // System.out.println(obj.privateVar);
+        // obj.privateMethod();
+    }
+}</code></pre>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Catatan</div>
+                    <p>Selain public dan private, Java juga memiliki modifier akses lain seperti protected (dapat diakses dalam package yang sama dan subclass) dan default/package-private (dapat diakses dalam package yang sama).</p>
+                </div>
+            </section>
+
+            <section id="static" class="content-section">
+                <h2 class="section-title">5. Static Keyword</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Keyword <code>static</code> digunakan untuk membuat variabel dan method yang bersifat global dalam kelas, artinya mereka milik class, bukan milik instance (objek) dari class tersebut.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Kapan Harus Menggunakan Static</h3>
+                    <ul class="content-list">
+                        <li><strong>Variabel yang Sama untuk Semua Objek:</strong> Gunakan static untuk variabel yang nilainya harus sama untuk semua objek dari class tersebut.</li>
+                        <li><strong>Konstanta:</strong> Variabel static final sering digunakan untuk mendefinisikan konstanta.</li>
+                        <li><strong>Utility Methods:</strong> Method yang tidak bergantung pada state objek dan hanya melakukan operasi pada parameter yang diberikan.</li>
+                        <li><strong>Factory Methods:</strong> Method static yang mengembalikan instance dari class tersebut.</li>
+                        <li><strong>Main Method:</strong> Method main harus static agar dapat dijalankan oleh JVM tanpa membuat instance dari class.</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>StaticExample.java</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code>public class StaticExample {
+    // Static variable (konstanta)
+    public static final double PI = 3.14159;
+    
+    // Static counter
+    private static int counter = 0;
+    
+    // Instance variable
+    private String name;
+    
+    // Constructor
+    public StaticExample(String name) {
+        this.name = name;
+        // Increment counter setiap kali objek dibuat
+        counter++;
+    }
+    
+    // Static method
+    public static int getCounter() {
+        return counter;
+    }
+    
+    // Static method untuk kalkulasi matematika
+    public static double calculateCircleArea(double radius) {
+        return PI * radius * radius;
+    }
+    
+    // Non-static method
+    public void displayInfo() {
+        System.out.println("Nama: " + name);
+        System.out.println("Jumlah objek: " + counter);
+    }
+    
+    public static void main(String[] args) {
+        // Mengakses static method dan variable tanpa membuat objek
+        System.out.println("PI: " + StaticExample.PI);
+        System.out.println("Luas lingkaran: " + StaticExample.calculateCircleArea(5));
+        
+        // Membuat beberapa objek
+        StaticExample obj1 = new StaticExample("Objek 1");
+        StaticExample obj2 = new StaticExample("Objek 2");
+        StaticExample obj3 = new StaticExample("Objek 3");
+        
+        // Menampilkan informasi
+        obj1.displayInfo();
+        
+        // Mengakses static counter
+        System.out.println("Total objek: " + StaticExample.getCounter());
+    }
+}</code></pre>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Penting</div>
+                    <p>Method static tidak dapat mengakses variabel instance (non-static) atau memanggil method non-static secara langsung, karena method static tidak memiliki referensi ke instance tertentu dari class.</p>
+                </div>
+            </section>
+
+            <section id="void" class="content-section">
+                <h2 class="section-title">6. Void vs Non-Void Methods</h2>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Void: Tidak mengembalikan nilai</h3>
+                    <p class="content-text">
+                        Method dengan tipe pengembalian <code>void</code> tidak mengembalikan nilai apapun. Method ini biasanya digunakan untuk melakukan tindakan atau operasi tanpa perlu mengembalikan hasil.
+                    </p>
+                    <ul class="content-list">
+                        <li>Digunakan ketika method hanya perlu melakukan tugas tanpa mengembalikan nilai</li>
+                        <li>Contoh: method untuk mencetak, mengubah state objek, atau melakukan operasi I/O</li>
+                        <li>Tidak menggunakan statement <code>return</code> dengan nilai (bisa menggunakan <code>return;</code> untuk keluar dari method lebih awal)</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Non-Void: Mengembalikan nilai menggunakan return</h3>
+                    <p class="content-text">
+                        Method non-void mengembalikan nilai dengan tipe data tertentu. Method ini harus menggunakan statement <code>return</code> untuk mengembalikan nilai yang sesuai dengan tipe pengembalian yang dideklarasikan.
+                    </p>
+                    <ul class="content-list">
+                        <li>Digunakan ketika method perlu menghitung atau menghasilkan nilai</li>
+                        <li>Tipe pengembalian bisa berupa tipe primitif (int, double, boolean, dll.) atau tipe referensi (String, array, objek, dll.)</li>
+                        <li>Harus memiliki statement <code>return</code> yang mengembalikan nilai dengan tipe yang sesuai</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>MethodTypes.java</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code>public class MethodTypes {
+    // Void method - tidak mengembalikan nilai
+    public void greet(String name) {
+        System.out.println("Halo, " + name + "!");
+        // Tidak ada return value
+    }
+    
+    // Non-void method - mengembalikan nilai int
+    public int add(int a, int b) {
+        return a + b; // Mengembalikan hasil penjumlahan
+    }
+    
+    // Non-void method - mengembalikan nilai boolean
+    public boolean isEven(int number) {
+        return number % 2 == 0; // Mengembalikan true jika genap, false jika ganjil
+    }
+    
+    // Non-void method - mengembalikan objek String
+    public String formatName(String firstName, String lastName) {
+        return lastName + ", " + firstName;
+    }
+    
+    public static void main(String[] args) {
+        MethodTypes demo = new MethodTypes();
+        
+        // Memanggil void method
+        demo.greet("Eben"); // Output: Halo, Eben!
+        
+        // Memanggil non-void methods dan menggunakan nilai yang dikembalikan
+        int sum = demo.add(5, 3);
+        System.out.println("5 + 3 = " + sum); // Output: 5 + 3 = 8
+        
+        boolean isEight = demo.isEven(8);
+        System.out.println("Apakah 8 genap? " + isEight); // Output: Apakah 8 genap? true
+        
+        String formattedName = demo.formatName("John", "Doe");
+        System.out.println("Nama: " + formattedName); // Output: Nama: Doe, John
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="args" class="content-section">
+                <h2 class="section-title">7. String[] args: Opsional atau Wajib?</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Parameter <code>String[] args</code> dalam method main digunakan untuk menerima argumen command line saat program dijalankan. Pertanyaannya, apakah parameter ini opsional atau wajib?
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Wajib, Tapi Namanya Bisa Diubah</h3>
+                    <p class="content-text">
+                        Parameter array String dalam method main adalah <strong>wajib</strong>, tetapi nama parameternya (args) bisa diubah menjadi nama lain seperti arguments, params, dll. Yang penting adalah tipe datanya harus <code>String[]</code>.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>MainMethodVariations.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>public class MainMethodVariations {
+    // Nama parameter bisa diubah
+    public static void main(String[] arguments) {
+        System.out.println("Jumlah argumen: " + arguments.length);
+    }
+    
+    // Ini juga valid
+    // public static void main(String[] params) {
+    //     System.out.println("Jumlah argumen: " + params.length);
+    // }
+    
+    // Ini juga valid - menggunakan varargs (variable arguments)
+    // public static void main(String... args) {
+    //     System.out.println("Jumlah argumen: " + args.length);
+    // }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Tidak Bisa Dihapus</h3>
+                    <p class="content-text">
+                        Jika parameter <code>String[] args</code> dihapus, maka method main tidak akan dikenali oleh JVM sebagai entry point program, dan akan menyebabkan error saat kompilasi atau runtime.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>InvalidMain.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>public class InvalidMain {
+    // Ini TIDAK valid sebagai entry point program
+    public static void main() {
+        System.out.println("Ini tidak akan dijalankan sebagai entry point");
+    }
+    
+    // Method main yang benar harus memiliki parameter String[]
+    public static void main(String[] args) {
+        System.out.println("Ini adalah entry point yang valid");
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Cara Menggunakan Command Line Arguments</h3>
+                    <p class="content-text">
+                        Untuk menjalankan program Java dengan argumen command line, gunakan format berikut:
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Command Line</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>java ProgramName arg1 arg2 arg3</code></pre>
+                    </div>
+                    
+                    <p class="content-text">
+                        Contoh program yang menggunakan argumen command line:
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Calculator.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>public class Calculator {
+    public static void main(String[] args) {
+        if (args.length != 3) {
+            System.out.println("Penggunaan: java Calculator angka1 operator angka2");
+            System.out.println("Operator yang didukung: +, -, *, /");
+            return;
+        }
+        
+        try {
+            double num1 = Double.parseDouble(args[0]);
+            String operator = args[1];
+            double num2 = Double.parseDouble(args[2]);
+            double result = 0;
+            
+            switch (operator) {
+                case "+":
+                    result = num1 + num2;
+                    break;
+                case "-":
+                    result = num1 - num2;
+                    break;
+                case "*":
+                    result = num1 * num2;
+                    break;
+                case "/":
+                    if (num2 == 0) {
+                        System.out.println("Error: Pembagian dengan nol");
+                        return;
+                    }
+                    result = num1 / num2;
+                    break;
+                default:
+                    System.out.println("Operator tidak valid: " + operator);
+                    return;
+            }
+            
+            System.out.println(num1 + " " + operator + " " + num2 + " = " + result);
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Argumen harus berupa angka");
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Catatan</div>
+                    <p>Meskipun parameter String[] args wajib ada, program Anda tidak harus menggunakannya. Jika program Anda tidak memerlukan argumen command line, Anda bisa mengabaikan parameter tersebut dalam implementasi method main.</p>
+                </div>
+            </section>
+
+            <section id="variabel" class="content-section">
+                <h2 class="section-title">8. Variabel dan Tipe Data</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Java adalah bahasa yang strongly typed, artinya setiap variabel harus dideklarasikan dengan tipe data tertentu. Java memiliki dua kategori utama tipe data: primitif dan non-primitif (referensi).
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Tipe Data Primitif</h3>
+                    <p class="content-text">
+                        Tipe data primitif adalah tipe data dasar yang disediakan oleh Java. Ada 8 tipe data primitif:
+                    </p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tipe Data</th>
+                                    <th>Ukuran</th>
+                                    <th>Rentang Nilai</th>
+                                    <th>Contoh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>byte</td>
+                                    <td>8-bit</td>
+                                    <td>-128 sampai 127</td>
+                                    <td><code>byte b = 100;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>short</td>
+                                    <td>16-bit</td>
+                                    <td>-32,768 sampai 32,767</td>
+                                    <td><code>short s = 1000;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>int</td>
+                                    <td>32-bit</td>
+                                    <td>-2^31 sampai 2^31-1</td>
+                                    <td><code>int i = 100000;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>long</td>
+                                    <td>64-bit</td>
+                                    <td>-2^63 sampai 2^63-1</td>
+                                    <td><code>long l = 100000L;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>float</td>
+                                    <td>32-bit</td>
+                                    <td>±3.4e−038 sampai ±3.4e+038</td>
+                                    <td><code>float f = 3.14f;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>double</td>
+                                    <td>64-bit</td>
+                                    <td>±1.7e−308 sampai ±1.7e+308</td>
+                                    <td><code>double d = 3.14159;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>char</td>
+                                    <td>16-bit</td>
+                                    <td>0 sampai 65,535 (karakter Unicode)</td>
+                                    <td><code>char c = 'A';</code></td>
+                                </tr>
+                                <tr>
+                                    <td>boolean</td>
+                                    <td>1-bit</td>
+                                    <td>true atau false</td>
+                                    <td><code>boolean b = true;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Tipe Data Non-Primitif (Referensi)</h3>
+                    <p class="content-text">
+                        Tipe data non-primitif adalah tipe data yang merujuk ke objek. Beberapa tipe data non-primitif yang umum digunakan:
+                    </p>
+                    <ul class="content-list">
+                        <li><strong>String:</strong> Untuk merepresentasikan teks</li>
+                        <li><strong>Array:</strong> Untuk menyimpan kumpulan nilai dengan tipe yang sama</li>
+                        <li><strong>Class:</strong> Tipe data yang didefinisikan pengguna</li>
+                        <li><strong>Interface:</strong> Blueprint untuk class</li>
+                        <li><strong>Wrapper Classes:</strong> Kelas yang membungkus tipe primitif (Integer, Double, Boolean, dll.)</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>DataTypes.java</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code>public class DataTypes {
+    public static void main(String[] args) {
+        // Tipe data primitif
+        byte byteVar = 100;
+        short shortVar = 1000;
+        int intVar = 100000;
+        long longVar = 100000000L;  // Perhatikan suffix 'L'
+        
+        float floatVar = 3.14f;     // Perhatikan suffix 'f'
+        double doubleVar = 3.14159;
+        
+        char charVar = 'A';
+        boolean boolVar = true;
+        
+        // Tipe data non-primitif
+        String stringVar = "Hello, Java!";
+        
+        // Array
+        int[] intArray = {1, 2, 3, 4, 5};
+        
+        // Wrapper classes
+        Integer integerObj = 100;
+        Double doubleObj = 3.14159;
+        
+        // Menampilkan nilai variabel
+        System.out.println("byte: " + byteVar);
+        System.out.println("short: " + shortVar);
+        System.out.println("int: " + intVar);
+        System.out.println("long: " + longVar);
+        System.out.println("float: " + floatVar);
+        System.out.println("double: " + doubleVar);
+        System.out.println("char: " + charVar);
+        System.out.println("boolean: " + boolVar);
+        System.out.println("String: " + stringVar);
+        System.out.println("Array: " + intArray[0] + ", " + intArray[1] + ", ...");
+        System.out.println("Integer object: " + integerObj);
+        System.out.println("Double object: " + doubleObj);
+    }
+}</code></pre>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Perbedaan Tipe Primitif dan Non-Primitif</div>
+                    <p>Tipe primitif menyimpan nilai secara langsung, sedangkan tipe non-primitif menyimpan referensi ke objek. Tipe primitif memiliki nilai default (0, 0.0, false, '\u0000'), sedangkan tipe non-primitif memiliki nilai default null.</p>
+                </div>
+            </section>
+
+            <section id="float-double" class="content-section">
+                <h2 class="section-title">9. Float vs Double</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Float dan double adalah dua tipe data primitif yang digunakan untuk menyimpan angka desimal (floating-point) di Java. Keduanya memiliki perbedaan dalam hal ukuran memori dan presisi.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Float: 32-bit, presisi 6-7 digit</h3>
+                    <ul class="content-list">
+                        <li>Menggunakan 32 bit (4 byte) memori</li>
+                        <li>Memiliki presisi sekitar 6-7 digit desimal</li>
+                        <li>Rentang nilai: ±3.4e−038 sampai ±3.4e+038</li>
+                        <li>Harus menggunakan suffix 'f' atau 'F' (contoh: 3.14f)</li>
+                        <li>Lebih hemat memori, tetapi kurang presisi</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Double: 64-bit, presisi 15-16 digit</h3>
+                    <ul class="content-list">
+                        <li>Menggunakan 64 bit (8 byte) memori</li>
+                        <li>Memiliki presisi sekitar 15-16 digit desimal</li>
+                        <li>Rentang nilai: ±1.7e−308 sampai ±1.7e+308</li>
+                        <li>Tidak memerlukan suffix (opsional: 'd' atau 'D')</li>
+                        <li>Lebih presisi, tetapi menggunakan lebih banyak memori</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>FloatVsDouble.java</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code>public class FloatVsDouble {
+    public static void main(String[] args) {
+        // Deklarasi dan inisialisasi
+        float floatVar = 3.14159265359f;  // Perhatikan suffix 'f'
+        double doubleVar = 3.14159265359;  // Tanpa suffix
+        
+        // Menampilkan nilai
+        System.out.println("Float: " + floatVar);  // Output: 3.1415927 (presisi terbatas)
+        System.out.println("Double: " + doubleVar);  // Output: 3.14159265359
+        
+        // Demonstrasi presisi
+        float floatSum = 0.0f;
+        double doubleSum = 0.0;
+        
+        for (int i = 0; i < 1000000; i++) {
+            floatSum += 0.0001f;
+            doubleSum += 0.0001;
+        }
+        
+        System.out.println("Hasil penjumlahan 0.0001 sebanyak 1.000.000 kali:");
+        System.out.println("Float: " + floatSum);  // Mungkin tidak tepat 100
+        System.out.println("Double: " + doubleSum);  // Lebih mendekati 100
+        
+        // Perbandingan ukuran
+        System.out.println("Ukuran float: " + Float.SIZE / 8 + " bytes");
+        System.out.println("Ukuran double: " + Double.SIZE / 8 + " bytes");
+    }
+}</code></pre>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Kapan Menggunakan Float vs Double</h3>
+                    <p class="content-text">
+                        Pilihan antara float dan double tergantung pada kebutuhan aplikasi:
+                    </p>
+                    <ul class="content-list">
+                        <li><strong>Gunakan float ketika:</strong>
+                            <ul>
+                                <li>Memori adalah pertimbangan utama</li>
+                                <li>Presisi tinggi tidak diperlukan</li>
+                                <li>Bekerja dengan array besar atau struktur data</li>
+                                <li>Aplikasi grafis atau game yang memerlukan kecepatan</li>
+                            </ul>
+                        </li>
+                        <li><strong>Gunakan double ketika:</strong>
+                            <ul>
+                                <li>Presisi tinggi diperlukan</li>
+                                <li>Melakukan perhitungan ilmiah atau finansial</li>
+                                <li>Bekerja dengan angka yang sangat besar atau sangat kecil</li>
+                                <li>Memori bukan masalah utama</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Catatan Penting</div>
+                    <p>Secara default, Java menggunakan double untuk literal floating-point. Jika Anda ingin menggunakan float, Anda harus menambahkan suffix 'f' atau 'F'. Contoh: <code>float f = 3.14f;</code></p>
+                </div>
+            </section>
+
+            <section id="operator" class="content-section">
+                <h2 class="section-title">10. Operator dalam Java</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Operator adalah simbol khusus yang digunakan untuk melakukan operasi pada variabel dan nilai. Java memiliki beberapa jenis operator yang dapat digunakan untuk berbagai keperluan.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Operator Aritmatika</h3>
+                    <p class="content-text">
+                        Digunakan untuk melakukan operasi matematika dasar.
+                    </p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Deskripsi</th>
+                                    <th>Contoh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>+</td>
+                                    <td>Penjumlahan</td>
+                                    <td><code>int c = a + b;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>Pengurangan</td>
+                                    <td><code>int c = a - b;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>*</td>
+                                    <td>Perkalian</td>
+                                    <td><code>int c = a * b;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>/</td>
+                                    <td>Pembagian</td>
+                                    <td><code>int c = a / b;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>%</td>
+                                    <td>Modulus (sisa pembagian)</td>
+                                    <td><code>int c = a % b;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>++</td>
+                                    <td>Increment</td>
+                                    <td><code>a++; atau ++a;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>--</td>
+                                    <td>Decrement</td>
+                                    <td><code>a--; atau --a;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Operator Perbandingan</h3>
+                    <p class="content-text">
+                        Digunakan untuk membandingkan dua nilai atau variabel. Hasil dari operator perbandingan adalah nilai boolean (true atau false).
+                    </p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Deskripsi</th>
+                                    <th>Contoh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>==</td>
+                                    <td>Sama dengan</td>
+                                    <td><code>if (a == b) {...}</code></td>
+                                </tr>
+                                <tr>
+                                    <td>!=</td>
+                                    <td>Tidak sama dengan</td>
+                                    <td><code>if (a != b) {...}</code></td>
+                                </tr>
+                                <tr>
+                                    <td>></td>
+                                    <td>Lebih besar dari</td>
+                                    <td><code>if (a > b) {...}</code></td>
+                                </tr>
+                                <tr>
+                                    <td><</td>
+                                    <td>Lebih kecil dari</td>
+                                    <td><code>if (a < b) {...}</code></td>
+                                </tr>
+                                <tr>
+                                    <td>>=</td>
+                                    <td>Lebih besar dari atau sama dengan</td>
+                                    <td><code>if (a >= b) {...}</code></td>
+                                </tr>
+                                <tr>
+                                    <td><=</td>
+                                    <td>Lebih kecil dari atau sama dengan</td>
+                                    <td><code>if (a <= b) {...}</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Operator Logika</h3>
+                    <p class="content-text">
+                        Digunakan untuk melakukan operasi logika pada nilai boolean.
+                    </p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Deskripsi</th>
+                                    <th>Contoh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>&&</td>
+                                    <td>AND logika (kedua kondisi harus true)</td>
+                                    <td><code>if (a > 5 && b < 10) {...}</code></td>
+                                </tr>
+                                <tr>
+                                    <td>||</td>
+                                    <td>OR logika (salah satu kondisi harus true)</td>
+                                    <td><code>if (a > 5 || b < 10) {...}</code></td>
+                                </tr>
+                                <tr>
+                                    <td>!</td>
+                                    <td>NOT logika (membalikkan nilai boolean)</td>
+                                    <td><code>if (!isValid) {...}</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>OperatorDemo.java</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code>public class OperatorDemo {
+    public static void main(String[] args) {
+        // Operator Aritmatika
+        int a = 10;
+        int b = 3;
+        
+        System.out.println("a + b = " + (a + b));  // 13
+        System.out.println("a - b = " + (a - b));  // 7
+        System.out.println("a * b = " + (a * b));  // 30
+        System.out.println("a / b = " + (a / b));  // 3 (pembagian integer)
+        System.out.println("a % b = " + (a % b));  // 1 (sisa pembagian)
+        
+        // Increment dan Decrement
+        int c = 5;
+        System.out.println("c++ = " + (c++));  // 5 (post-increment: nilai c digunakan dulu, baru ditambah)
+        System.out.println("c sekarang = " + c);  // 6
+        
+        int d = 5;
+        System.out.println("++d = " + (++d));  // 6 (pre-increment: nilai d ditambah dulu, baru digunakan)
+        
+        // Operator Perbandingan
+        System.out.println("a == b: " + (a == b));  // false
+        System.out.println("a != b: " + (a != b));  // true
+        System.out.println("a > b: " + (a > b));    // true
+        System.out.println("a < b: " + (a < b));    // false
+        System.out.println("a >= b: " + (a >= b));  // true
+        System.out.println("a <= b: " + (a <= b));  // false
+        
+        // Operator Logika
+        boolean x = true;
+        boolean y = false;
+        
+        System.out.println("x && y: " + (x && y));  // false
+        System.out.println("x || y: " + (x || y));  // true
+        System.out.println("!x: " + (!x));          // false
+        
+        // Operator Bitwise (untuk operasi bit)
+        System.out.println("a & b: " + (a & b));    // 2 (bitwise AND)
+        System.out.println("a | b: " + (a | b));    // 11 (bitwise OR)
+        System.out.println("a ^ b: " + (a ^ b));    // 9 (bitwise XOR)
+        System.out.println("~a: " + (~a));          // -11 (bitwise NOT)
+        System.out.println("a << 2: " + (a << 2));  // 40 (left shift)
+        System.out.println("a >> 2: " + (a >> 2));  // 2 (right shift)
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="looping" class="content-section">
+                <h2 class="section-title">11. Looping (Perulangan)</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Perulangan (looping) digunakan untuk mengeksekusi blok kode berulang kali selama kondisi tertentu terpenuhi. Java menyediakan beberapa jenis perulangan untuk berbagai kebutuhan.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">For Loop: Inisialisasi, kondisi, increment/decrement</h3>
+                    <p class="content-text">
+                        For loop digunakan ketika kita tahu berapa kali kita ingin mengeksekusi blok kode. For loop memiliki tiga bagian: inisialisasi, kondisi, dan increment/decrement.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ForLoopExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Sintaks dasar for loop
+for (inisialisasi; kondisi; increment/decrement) {
+    // blok kode yang akan dieksekusi
+}
+
+// Contoh for loop
+for (int i = 0; i < 5; i++) {
+    System.out.println("Iterasi ke-" + i);
+}
+
+// For loop dengan multiple variabel
+for (int i = 0, j = 10; i < j; i++, j--) {
+    System.out.println("i = " + i + ", j = " + j);
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">While Loop: Mengeksekusi selama kondisi bernilai benar</h3>
+                    <p class="content-text">
+                        While loop digunakan ketika kita ingin mengeksekusi blok kode selama kondisi tertentu bernilai true. Kondisi dievaluasi sebelum blok kode dieksekusi.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>WhileLoopExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Sintaks dasar while loop
+while (kondisi) {
+    // blok kode yang akan dieksekusi
+}
+
+// Contoh while loop
+int i = 0;
+while (i < 5) {
+    System.out.println("Iterasi ke-" + i);
+    i++;
+}
+
+// While loop dengan kondisi kompleks
+int num = 1;
+while (num <= 100 && num % 17 != 0) {
+    System.out.println("Angka: " + num);
+    num++;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Do-While Loop: Minimal dijalankan sekali sebelum memeriksa kondisi</h3>
+                    <p class="content-text">
+                        Do-while loop mirip dengan while loop, tetapi kondisi dievaluasi setelah blok kode dieksekusi. Ini berarti blok kode akan dieksekusi minimal satu kali, bahkan jika kondisi awalnya false.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>DoWhileLoopExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Sintaks dasar do-while loop
+do {
+    // blok kode yang akan dieksekusi
+} while (kondisi);
+
+// Contoh do-while loop
+int i = 0;
+do {
+    System.out.println("Iterasi ke-" + i);
+    i++;
+} while (i < 5);
+
+// Do-while loop yang dieksekusi minimal sekali
+int j = 10;
+do {
+    System.out.println("Nilai j: " + j);
+    j++;
+} while (j < 5);  // Kondisi false, tetapi blok kode tetap dieksekusi sekali</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Enhanced For Loop (For-Each)</h3>
+                    <p class="content-text">
+                        Enhanced for loop (juga disebut for-each loop) digunakan untuk mengiterasi elemen dalam array atau collection. Ini lebih sederhana dan lebih mudah dibaca daripada for loop tradisional untuk kasus ini.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>EnhancedForLoopExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Sintaks dasar enhanced for loop
+for (tipeData variabel : array/collection) {
+    // blok kode yang akan dieksekusi
+}
+
+// Contoh enhanced for loop dengan array
+int[] numbers = {1, 2, 3, 4, 5};
+for (int num : numbers) {
+    System.out.println("Angka: " + num);
+}
+
+// Contoh enhanced for loop dengan collection
+ArrayList<String> names = new ArrayList<>();
+names.add("John");
+names.add("Jane");
+names.add("Bob");
+
+for (String name : names) {
+    System.out.println("Nama: " + name);
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Kontrol Perulangan: break dan continue</h3>
+                    <p class="content-text">
+                        Java menyediakan dua statement untuk mengontrol perulangan: break dan continue.
+                    </p>
+                    <ul class="content-list">
+                        <li><strong>break:</strong> Menghentikan perulangan dan keluar dari blok perulangan</li>
+                        <li><strong>continue:</strong> Melewati iterasi saat ini dan melanjutkan ke iterasi berikutnya</li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>LoopControlExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Contoh penggunaan break
+for (int i = 0; i < 10; i++) {
+    if (i == 5) {
+        break;  // Keluar dari loop saat i = 5
+    }
+    System.out.println("Break example: " + i);
+}
+
+// Contoh penggunaan continue
+for (int i = 0; i < 10; i++) {
+    if (i % 2 == 0) {
+        continue;  // Lewati iterasi jika i genap
+    }
+    System.out.println("Continue example: " + i);  // Hanya mencetak angka ganjil
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Tips Memilih Jenis Perulangan</div>
+                    <ul class="content-list">
+                        <li>Gunakan <strong>for loop</strong> ketika Anda tahu berapa kali perulangan akan dijalankan</li>
+                        <li>Gunakan <strong>while loop</strong> ketika Anda tidak tahu berapa kali perulangan akan dijalankan, tetapi tahu kondisi berhentinya</li>
+                        <li>Gunakan <strong>do-while loop</strong> ketika Anda ingin blok kode dieksekusi minimal satu kali</li>
+                        <li>Gunakan <strong>enhanced for loop</strong> ketika Anda ingin mengiterasi semua elemen dalam array atau collection</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="array" class="content-section">
+                <h2 class="section-title">12. Memahami Array</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Array adalah struktur data yang digunakan untuk menyimpan kumpulan nilai dengan tipe data yang sama. Array memiliki ukuran tetap yang ditentukan saat pembuatan.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Deklarasi dan Inisialisasi Array</h3>
+                    <p class="content-text">
+                        Ada beberapa cara untuk mendeklarasikan dan menginisialisasi array di Java:
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ArrayDeclaration.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Deklarasi array
+int[] numbers;  // Cara yang direkomendasikan
+int numbers[];  // Cara alternatif (gaya C/C++)
+
+// Inisialisasi array dengan ukuran tertentu
+numbers = new int[5];  // Array dengan 5 elemen, semua bernilai 0
+
+// Deklarasi dan inisialisasi dalam satu baris
+int[] scores = new int[10];
+
+// Inisialisasi dengan nilai tertentu
+int[] values = {10, 20, 30, 40, 50};  // Array dengan 5 elemen dan nilai yang ditentukan
+
+// Cara alternatif untuk inisialisasi dengan nilai tertentu
+int[] prices = new int[] {15, 25, 35, 45, 55};
+
+// Array multi-dimensi
+int[][] matrix = new int[3][4];  // Array 2D dengan 3 baris dan 4 kolom
+int[][] jaggedArray = new int[3][];  // Array 2D dengan 3 baris, jumlah kolom belum ditentukan
+jaggedArray[0] = new int[4];  // Baris pertama memiliki 4 kolom
+jaggedArray[1] = new int[2];  // Baris kedua memiliki 2 kolom
+jaggedArray[2] = new int[5];  // Baris ketiga memiliki 5 kolom
+
+// Inisialisasi array 2D dengan nilai tertentu
+int[][] grid = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Akses Elemen dengan Indeks</h3>
+                    <p class="content-text">
+                        Elemen array diakses menggunakan indeks, yang dimulai dari 0 untuk elemen pertama.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ArrayAccess.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>int[] numbers = {10, 20, 30, 40, 50};
+
+// Mengakses elemen array
+System.out.println("Elemen pertama: " + numbers[0]);  // 10
+System.out.println("Elemen ketiga: " + numbers[2]);   // 30
+
+// Mengubah nilai elemen array
+numbers[1] = 25;
+System.out.println("Elemen kedua setelah diubah: " + numbers[1]);  // 25
+
+// Mengakses elemen array 2D
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+System.out.println("Elemen di baris 1, kolom 2: " + matrix[1][2]);  // 6
+
+// Mengubah nilai elemen array 2D
+matrix[0][1] = 10;
+System.out.println("Elemen di baris 0, kolom 1 setelah diubah: " + matrix[0][1]);  // 10</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Looping Array dengan for dan for-each</h3>
+                    <p class="content-text">
+                        Ada beberapa cara untuk mengiterasi elemen dalam array:
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ArrayLooping.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>int[] numbers = {10, 20, 30, 40, 50};
+
+// Menggunakan for loop tradisional
+System.out.println("Menggunakan for loop:");
+for (int i = 0; i < numbers.length; i++) {
+    System.out.println("Elemen ke-" + i + ": " + numbers[i]);
+}
+
+// Menggunakan enhanced for loop (for-each)
+System.out.println("\nMenggunakan enhanced for loop:");
+for (int num : numbers) {
+    System.out.println("Elemen: " + num);
+}
+
+// Looping array 2D dengan for loop tradisional
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+System.out.println("\nMenggunakan for loop untuk array 2D:");
+for (int i = 0; i < matrix.length; i++) {
+    for (int j = 0; j < matrix[i].length; j++) {
+        System.out.print(matrix[i][j] + " ");
+    }
+    System.out.println();  // Pindah ke baris baru setelah setiap baris matrix
+}
+
+// Looping array 2D dengan enhanced for loop
+System.out.println("\nMenggunakan enhanced for loop untuk array 2D:");
+for (int[] row : matrix) {
+    for (int element : row) {
+        System.out.print(element + " ");
+    }
+    System.out.println();
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Utilitas Array</h3>
+                    <p class="content-text">
+                        Java menyediakan kelas <code>java.util.Arrays</code> yang berisi berbagai method utilitas untuk bekerja dengan array.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ArrayUtils.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>import java.util.Arrays;
+
+public class ArrayUtils {
+    public static void main(String[] args) {
+        int[] numbers = {5, 2, 9, 1, 7, 3};
+        
+        // Mengurutkan array
+        Arrays.sort(numbers);
+        System.out.println("Array setelah diurutkan: " + Arrays.toString(numbers));
+        
+        // Mencari elemen dalam array yang sudah diurutkan
+        int index = Arrays.binarySearch(numbers, 7);
+        System.out.println("Indeks elemen 7: " + index);
+        
+        // Membandingkan dua array
+        int[] array1 = {1, 2, 3};
+        int[] array2 = {1, 2, 3};
+        int[] array3 = {1, 2, 4};
+        
+        System.out.println("array1 sama dengan array2: " + Arrays.equals(array1, array2));  // true
+        System.out.println("array1 sama dengan array3: " + Arrays.equals(array1, array3));  // false
+        
+        // Mengisi array dengan nilai tertentu
+        int[] filled = new int[5];
+        Arrays.fill(filled, 10);
+        System.out.println("Array setelah diisi: " + Arrays.toString(filled));
+        
+        // Menyalin array
+        int[] source = {1, 2, 3, 4, 5};
+        int[] dest = Arrays.copyOf(source, 7);  // Menyalin dan memperbesar ukuran
+        System.out.println("Array hasil copy: " + Arrays.toString(dest));
+        
+        // Menyalin sebagian array
+        int[] partial = Arrays.copyOfRange(source, 1, 4);  // Menyalin dari indeks 1 (inklusif) hingga 4 (eksklusif)
+        System.out.println("Array hasil copy sebagian: " + Arrays.toString(partial));
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Catatan Penting</div>
+                    <ul class="content-list">
+                        <li>Array di Java memiliki ukuran tetap yang tidak dapat diubah setelah dibuat</li>
+                        <li>Indeks array dimulai dari 0</li>
+                        <li>Mengakses indeks di luar batas array akan menyebabkan <code>ArrayIndexOutOfBoundsException</code></li>
+                        <li>Properti <code>length</code> memberikan jumlah elemen dalam array</li>
+                        <li>Jika Anda memerlukan array dengan ukuran dinamis, gunakan <code>ArrayList</code> atau collection lainnya</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="percabangan" class="content-section">
+                <h2 class="section-title">13. Percabangan dalam Java</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Percabangan (branching) digunakan untuk mengeksekusi blok kode tertentu berdasarkan kondisi. Java menyediakan beberapa jenis percabangan untuk mengontrol alur program.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">If-Else: Mengeksekusi blok kode berdasarkan kondisi</h3>
+                    <p class="content-text">
+                        Statement if-else digunakan untuk mengeksekusi blok kode jika kondisi tertentu terpenuhi (true), dan blok kode lain jika kondisi tidak terpenuhi (false).
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>IfElseExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// If sederhana
+int age = 18;
+if (age >= 18) {
+    System.out.println("Anda sudah dewasa");
+}
+
+// If-else
+int score = 75;
+if (score >= 60) {
+    System.out.println("Anda lulus");
+} else {
+    System.out.println("Anda tidak lulus");
+}
+
+// If-else-if ladder
+int nilai = 85;
+if (nilai >= 90) {
+    System.out.println("Nilai A");
+} else if (nilai >= 80) {
+    System.out.println("Nilai B");
+} else if (nilai >= 70) {
+    System.out.println("Nilai C");
+} else if (nilai >= 60) {
+    System.out.println("Nilai D");
+} else {
+    System.out.println("Nilai E");
+}
+
+// Nested if (if bersarang)
+boolean isRegistered = true;
+boolean hasCompletedPayment = true;
+
+if (isRegistered) {
+    if (hasCompletedPayment) {
+        System.out.println("Anda dapat mengakses kursus");
+    } else {
+        System.out.println("Silakan selesaikan pembayaran");
+    }
+} else {
+    System.out.println("Silakan registrasi terlebih dahulu");
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Switch-Case: Alternatif untuk banyak kondisi</h3>
+                    <p class="content-text">
+                        Statement switch-case digunakan sebagai alternatif untuk if-else-if ladder ketika kita perlu memeriksa nilai variabel terhadap beberapa nilai konstan.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>SwitchCaseExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Switch-case dengan int
+int day = 3;
+switch (day) {
+    case 1:
+        System.out.println("Senin");
+        break;
+    case 2:
+        System.out.println("Selasa");
+        break;
+    case 3:
+        System.out.println("Rabu");
+        break;
+    case 4:
+        System.out.println("Kamis");
+        break;
+    case 5:
+        System.out.println("Jumat");
+        break;
+    case 6:
+        System.out.println("Sabtu");
+        break;
+    case 7:
+        System.out.println("Minggu");
+        break;
+    default:
+        System.out.println("Hari tidak valid");
+}
+
+// Switch-case dengan char
+char grade = 'B';
+switch (grade) {
+    case 'A':
+        System.out.println("Excellent!");
+        break;
+    case 'B':
+    case 'C':
+        System.out.println("Well done");
+        break;
+    case 'D':
+        System.out.println("You passed");
+        break;
+    case 'F':
+        System.out.println("Better try again");
+        break;
+    default:
+        System.out.println("Invalid grade");
+}
+
+// Switch-case dengan String (Java 7+)
+String role = "admin";
+switch (role) {
+    case "admin":
+        System.out.println("Akses penuh");
+        break;
+    case "editor":
+        System.out.println("Akses edit");
+        break;
+    case "user":
+        System.out.println("Akses terbatas");
+        break;
+    default:
+        System.out.println("Akses ditolak");
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Ternary Operator: Shorthand untuk if-else</h3>
+                    <p class="content-text">
+                        Operator ternary (? :) adalah shorthand untuk statement if-else sederhana. Format: <code>condition ? expression1 : expression2</code>
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>TernaryOperatorExample.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// If-else biasa
+int age = 17;
+String status;
+if (age >= 18) {
+    status = "Dewasa";
+} else {
+    status = "Anak-anak";
+}
+System.out.println(status);
+
+// Menggunakan ternary operator
+int score = 75;
+String result = (score >= 60) ? "Lulus" : "Tidak lulus";
+System.out.println(result);
+
+// Ternary operator bersarang
+int nilai = 85;
+String grade = (nilai >= 90) ? "A" : 
+               (nilai >= 80) ? "B" : 
+               (nilai >= 70) ? "C" : 
+               (nilai >= 60) ? "D" : "E";
+System.out.println(grade);</code></pre>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Tips Memilih Jenis Percabangan</div>
+                    <ul class="content-list">
+                        <li>Gunakan <strong>if</strong> untuk kondisi sederhana</li>
+                        <li>Gunakan <strong>if-else</strong> untuk dua kemungkinan kondisi</li>
+                        <li>Gunakan <strong>if-else-if</strong> untuk multiple kondisi dengan rentang nilai atau kondisi kompleks</li>
+                        <li>Gunakan <strong>switch-case</strong> untuk multiple kondisi dengan nilai konstan</li>
+                        <li>Gunakan <strong>ternary operator</strong> untuk if-else sederhana yang menghasilkan nilai</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="array-arraylist" class="content-section">
+                <h2 class="section-title">14. Array vs ArrayList</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Array dan ArrayList adalah dua struktur data yang digunakan untuk menyimpan kumpulan elemen, tetapi keduanya memiliki perbedaan signifikan dalam hal fleksibilitas, fungsionalitas, dan penggunaan.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Array: Ukuran tetap, lebih efisien</h3>
+                    <ul class="content-list">
+                        <li><strong>Ukuran Tetap:</strong> Ukuran array ditentukan saat pembuatan dan tidak dapat diubah</li>
+                        <li><strong>Efisiensi:</strong> Lebih efisien dalam hal penggunaan memori dan kecepatan akses</li>
+                        <li><strong>Tipe Data:</strong> Dapat menyimpan tipe data primitif dan objek</li>
+                        <li><strong>Sintaks:</strong> Sintaks lebih sederhana dan langsung</li>
+                        <li><strong>Fungsionalitas:</strong> Tidak memiliki method bawaan untuk manipulasi data</li>
+                    </ul>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">ArrayList: Dinamis, mudah dimanipulasi</h3>
+                    <ul class="content-list">
+                        <li><strong>Ukuran Dinamis:</strong> Ukuran ArrayList dapat bertambah atau berkurang secara dinamis</li>
+                        <li><strong>Fleksibilitas:</strong> Lebih fleksibel dengan banyak method untuk manipulasi data</li>
+                        <li><strong>Tipe Data:</strong> Hanya dapat menyimpan objek (tidak dapat menyimpan tipe data primitif secara langsung)</li>
+                        <li><strong>Sintaks:</strong> Memerlukan import dari java.util.ArrayList</li>
+                        <li><strong>Fungsionalitas:</strong> Memiliki banyak method bawaan seperti add(), remove(), contains(), dll.</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>ArrayVsArrayList.java</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code>import java.util.ArrayList;
+import java.util.Arrays;
+
+public class ArrayVsArrayList {
+    public static void main(String[] args) {
+        // Array
+        System.out.println("=== Array ===");
+        
+        // Inisialisasi array
+        int[] numbersArray = new int[5];
+        
+        // Mengisi array
+        for (int i = 0; i < numbersArray.length; i++) {
+            numbersArray[i] = i * 10;
+        }
+        
+        // Menampilkan array
+        System.out.println("Array: " + Arrays.toString(numbersArray));
+        
+        // Mengakses elemen array
+        System.out.println("Elemen ke-2: " + numbersArray[2]);
+        
+        // Mengubah elemen array
+        numbersArray[3] = 35;
+        System.out.println("Array setelah diubah: " + Arrays.toString(numbersArray));
+        
+        // Tidak bisa menambah elemen baru ke array yang sudah ada
+        // Harus membuat array baru dengan ukuran yang lebih besar
+        int[] newArray = new int[numbersArray.length + 1];
+        System.arraycopy(numbersArray, 0, newArray, 0, numbersArray.length);
+        newArray[newArray.length - 1] = 50;
+        System.out.println("Array baru: " + Arrays.toString(newArray));
+        
+        // ArrayList
+        System.out.println("\n=== ArrayList ===");
+        
+        // Inisialisasi ArrayList
+        ArrayList<Integer> numbersList = new ArrayList<>();
+        
+        // Menambahkan elemen ke ArrayList
+        for (int i = 0; i < 5; i++) {
+            numbersList.add(i * 10);
+        }
+        
+        // Menampilkan ArrayList
+        System.out.println("ArrayList: " + numbersList);
+        
+        // Mengakses elemen ArrayList
+        System.out.println("Elemen ke-2: " + numbersList.get(2));
+        
+        // Mengubah elemen ArrayList
+        numbersList.set(3, 35);
+        System.out.println("ArrayList setelah diubah: " + numbersList);
+        
+        // Menambahkan elemen baru ke ArrayList
+        numbersList.add(50);
+        System.out.println("ArrayList setelah ditambah: " + numbersList);
+        
+        // Menghapus elemen dari ArrayList
+        numbersList.remove(1);  // Menghapus elemen di indeks 1
+        System.out.println("ArrayList setelah dihapus: " + numbersList);
+        
+        // Memeriksa apakah elemen ada di ArrayList
+        boolean contains = numbersList.contains(30);
+        System.out.println("ArrayList berisi 30? " + contains);
+        
+        // Mendapatkan ukuran ArrayList
+        System.out.println("Ukuran ArrayList: " + numbersList.size());
+        
+        // Mengosongkan ArrayList
+        numbersList.clear();
+        System.out.println("ArrayList setelah dikosongkan: " + numbersList);
+    }
+}</code></pre>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Kapan Menggunakan Array vs ArrayList</h3>
+                    <p class="content-text">
+                        Pilihan antara Array dan ArrayList tergantung pada kebutuhan spesifik aplikasi Anda:
+                    </p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Gunakan Array ketika</th>
+                                    <th>Gunakan ArrayList ketika</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ukuran koleksi tetap dan diketahui sebelumnya</td>
+                                    <td>Ukuran koleksi dapat berubah selama runtime</td>
+                                </tr>
+                                <tr>
+                                    <td>Performa adalah prioritas utama</td>
+                                    <td>Fleksibilitas lebih penting daripada performa</td>
+                                </tr>
+                                <tr>
+                                    <td>Menyimpan tipe data primitif (tanpa autoboxing)</td>
+                                    <td>Memerlukan banyak operasi manipulasi data (add, remove, dll.)</td>
+                                </tr>
+                                <tr>
+                                    <td>Memerlukan array multi-dimensi</td>
+                                    <td>Memerlukan fitur-fitur collection seperti sorting, searching, dll.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Catatan Penting</div>
+                    <p>ArrayList menggunakan array di balik layar, tetapi secara otomatis menangani resizing saat diperlukan. Ini memberikan fleksibilitas dengan sedikit overhead performa. Jika Anda tidak yakin mana yang harus digunakan, ArrayList biasanya merupakan pilihan yang lebih aman karena fleksibilitasnya.</p>
+                </div>
+            </section>
+
+            <section id="oop" class="content-section">
+                <h2 class="section-title">15. Konsep OOP dalam Java</h2>
+                
+                <div class="subsection">
+                    <p class="content-text">
+                        Java adalah bahasa pemrograman berorientasi objek (Object-Oriented Programming/OOP). OOP adalah paradigma pemrograman yang menggunakan "objek" untuk mendesain aplikasi dan program. Ada empat konsep utama dalam OOP: Enkapsulasi, Inheritance, Polymorphism, dan Abstraksi.
+                    </p>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Enkapsulasi: Melindungi data dengan modifier akses</h3>
+                    <p class="content-text">
+                        Enkapsulasi adalah konsep menyembunyikan detail implementasi dan hanya mengekspos fungsionalitas yang diperlukan. Ini dicapai dengan menggunakan modifier akses dan method getter/setter.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Encapsulation.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>public class Person {
+    // Private fields (data tersembunyi)
+    private String name;
+    private int age;
+    
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.setAge(age);  // Menggunakan setter untuk validasi
+    }
+    
+    // Getter methods
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    // Setter methods dengan validasi
+    public void setName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        }
+    }
+    
+    public void setAge(int age) {
+        if (age >= 0 && age <= 120) {  // Validasi umur
+            this.age = age;
+        } else {
+            throw new IllegalArgumentException("Umur harus antara 0 dan 120");
+        }
+    }
+    
+    public static void main(String[] args) {
+        Person person = new Person("John", 25);
+        
+        // Mengakses data melalui getter
+        System.out.println("Nama: " + person.getName());
+        System.out.println("Umur: " + person.getAge());
+        
+        // Mengubah data melalui setter
+        person.setName("John Doe");
+        person.setAge(30);
+        
+        System.out.println("Nama baru: " + person.getName());
+        System.out.println("Umur baru: " + person.getAge());
+        
+        // Ini akan menyebabkan error karena validasi
+        // person.setAge(150);
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Inheritance: Pewarisan sifat dari kelas induk ke kelas anak</h3>
+                    <p class="content-text">
+                        Inheritance (pewarisan) memungkinkan sebuah class untuk mewarisi properti dan method dari class lain. Ini memungkinkan reusability kode dan hubungan hierarki antar class.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Inheritance.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Class induk (parent/super class)
+class Animal {
+    protected String name;
+    protected int age;
+    
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public void eat() {
+        System.out.println(name + " sedang makan");
+    }
+    
+    public void sleep() {
+        System.out.println(name + " sedang tidur");
+    }
+}
+
+// Class anak (child/sub class) yang mewarisi Animal
+class Dog extends Animal {
+    private String breed;
+    
+    public Dog(String name, int age, String breed) {
+        super(name, age);  // Memanggil constructor class induk
+        this.breed = breed;
+    }
+    
+    // Method tambahan khusus untuk Dog
+    public void bark() {
+        System.out.println(name + " menggonggong: Woof! Woof!");
+    }
+    
+    // Override method dari class induk
+    @Override
+    public void eat() {
+        System.out.println(name + " sedang makan tulang");
+    }
+}
+
+// Class anak lain yang mewarisi Animal
+class Bird extends Animal {
+    private boolean canFly;
+    
+    public Bird(String name, int age, boolean canFly) {
+        super(name, age);
+        this.canFly = canFly;
+    }
+    
+    // Method tambahan khusus untuk Bird
+    public void fly() {
+        if (canFly) {
+            System.out.println(name + " sedang terbang");
+        } else {
+            System.out.println(name + " tidak bisa terbang");
+        }
+    }
+    
+    // Override method dari class induk
+    @Override
+    public void eat() {
+        System.out.println(name + " sedang makan biji-bijian");
+    }
+}
+
+public class InheritanceDemo {
+    public static void main(String[] args) {
+        // Membuat objek dari class induk
+        Animal animal = new Animal("Hewan", 5);
+        animal.eat();  // Output: Hewan sedang makan
+        
+        // Membuat objek dari class anak
+        Dog dog = new Dog("Buddy", 3, "Golden Retriever");
+        dog.eat();     // Output: Buddy sedang makan tulang (method yang di-override)
+        dog.sleep();   // Output: Buddy sedang tidur (method dari class induk)
+        dog.bark();    // Output: Buddy menggonggong: Woof! Woof! (method khusus Dog)
+        
+        Bird bird = new Bird("Tweety", 2, true);
+        bird.eat();    // Output: Tweety sedang makan biji-bijian (method yang di-override)
+        bird.sleep();  // Output: Tweety sedang tidur (method dari class induk)
+        bird.fly();    // Output: Tweety sedang terbang (method khusus Bird)
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Polymorphism: Kemampuan metode dengan nama sama berperilaku berbeda</h3>
+                    <p class="content-text">
+                        Polymorphism (polimorfisme) memungkinkan objek dari class yang berbeda untuk merespons method yang sama dengan cara yang berbeda. Ada dua jenis polimorfisme: compile-time (overloading) dan runtime (overriding).
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Polymorphism.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Compile-time Polymorphism (Method Overloading)
+class Calculator {
+    // Method dengan nama sama tetapi parameter berbeda
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public double add(double a, double b) {
+        return a + b;
+    }
+    
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+
+// Runtime Polymorphism (Method Overriding)
+class Shape {
+    public double calculateArea() {
+        return 0;  // Default implementation
+    }
+    
+    public void display() {
+        System.out.println("Ini adalah bentuk");
+    }
+}
+
+class Circle extends Shape {
+    private double radius;
+    
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+    
+    @Override
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+    
+    @Override
+    public void display() {
+        System.out.println("Ini adalah lingkaran dengan radius " + radius);
+    }
+}
+
+class Rectangle extends Shape {
+    private double width;
+    private double height;
+    
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+    
+    @Override
+    public double calculateArea() {
+        return width * height;
+    }
+    
+    @Override
+    public void display() {
+        System.out.println("Ini adalah persegi panjang dengan lebar " + width + " dan tinggi " + height);
+    }
+}
+
+public class PolymorphismDemo {
+    public static void main(String[] args) {
+        // Compile-time Polymorphism (Method Overloading)
+        Calculator calc = new Calculator();
+        System.out.println("1 + 2 = " + calc.add(1, 2));
+        System.out.println("1.5 + 2.5 = " + calc.add(1.5, 2.5));
+        System.out.println("1 + 2 + 3 = " + calc.add(1, 2, 3));
+        
+        // Runtime Polymorphism (Method Overriding)
+        Shape shape1 = new Circle(5);
+        Shape shape2 = new Rectangle(4, 6);
+        
+        // Memanggil method yang sama tetapi implementasi berbeda
+        shape1.display();  // Output: Ini adalah lingkaran dengan radius 5
+        shape2.display();  // Output: Ini adalah persegi panjang dengan lebar 4 dan tinggi 6
+        
+        System.out.println("Luas lingkaran: " + shape1.calculateArea());
+        System.out.println("Luas persegi panjang: " + shape2.calculateArea());
+        
+        // Polymorphism dengan array
+        Shape[] shapes = new Shape[3];
+        shapes[0] = new Circle(3);
+        shapes[1] = new Rectangle(5, 4);
+        shapes[2] = new Circle(7);
+        
+        for (Shape shape : shapes) {
+            shape.display();
+            System.out.println("Luas: " + shape.calculateArea());
+            System.out.println();
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="subsection">
+                    <h3 class="subsection-title">Abstraksi: Menyembunyikan detail implementasi</h3>
+                    <p class="content-text">
+                        Abstraksi adalah konsep menyembunyikan detail implementasi dan hanya menunjukkan fungsionalitas yang penting kepada pengguna. Ini dapat dicapai melalui abstract class dan interface.
+                    </p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Abstraction.java</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>// Abstract Class
+abstract class Vehicle {
+    protected String brand;
+    protected String model;
+    
+    public Vehicle(String brand, String model) {
+        this.brand = brand;
+        this.model = model;
+    }
+    
+    // Abstract method (harus diimplementasikan oleh subclass)
+    public abstract void start();
+    
+    // Concrete method (implementasi umum)
+    public void stop() {
+        System.out.println("Kendaraan berhenti");
+    }
+    
+    public void displayInfo() {
+        System.out.println("Brand: " + brand);
+        System.out.println("Model: " + model);
+    }
+}
+
+class Car extends Vehicle {
+    private int numDoors;
+    
+    public Car(String brand, String model, int numDoors) {
+        super(brand, model);
+        this.numDoors = numDoors;
+    }
+    
+    @Override
+    public void start() {
+        System.out.println("Mobil dinyalakan dengan kunci");
+    }
+    
+    public void honk() {
+        System.out.println("Beep! Beep!");
+    }
+}
+
+class Motorcycle extends Vehicle {
+    private boolean hasSidecar;
+    
+    public Motorcycle(String brand, String model, boolean hasSidecar) {
+        super(brand, model);
+        this.hasSidecar = hasSidecar;
+    }
+    
+    @Override
+    public void start() {
+        System.out.println("Motor dinyalakan dengan kick starter");
+    }
+    
+    public void wheelie() {
+        System.out.println("Motor melakukan wheelie!");
+    }
+}
+
+// Interface
+interface Flyable {
+    void fly();  // Abstract method (implisit)
+    void land();
+    
+    // Default method (Java 8+)
+    default void takeOff() {
+        System.out.println("Lepas landas...");
+    }
+}
+
+interface Swimmable {
+    void swim();
+}
+
+// Class yang mengimplementasikan interface
+class Bird implements Flyable {
+    private String species;
+    
+    public Bird(String species) {
+        this.species = species;
+    }
+    
+    @Override
+    public void fly() {
+        System.out.println(species + " terbang dengan sayap");
+    }
+    
+    @Override
+    public void land() {
+        System.out.println(species + " mendarat di pohon");
+    }
+}
+
+// Class yang mengimplementasikan multiple interfaces
+class Duck implements Flyable, Swimmable {
+    @Override
+    public void fly() {
+        System.out.println("Bebek terbang rendah di atas air");
+    }
+    
+    @Override
+    public void land() {
+        System.out.println("Bebek mendarat di air");
+    }
+    
+    @Override
+    public void swim() {
+        System.out.println("Bebek berenang di danau");
+    }
+}
+
+public class AbstractionDemo {
+    public static void main(String[] args) {
+        // Abstract Class
+        // Vehicle vehicle = new Vehicle("Generic", "Model");  // Error: Cannot instantiate abstract class
+        
+        Car car = new Car("Toyota", "Corolla", 4);
+        car.displayInfo();
+        car.start();  // Output: Mobil dinyalakan dengan kunci
+        car.stop();   // Output: Kendaraan berhenti
+        car.honk();   // Output: Beep! Beep!
+        
+        Motorcycle motorcycle = new Motorcycle("Honda", "CBR", false);
+        motorcycle.displayInfo();
+        motorcycle.start();  // Output: Motor dinyalakan dengan kick starter
+        motorcycle.stop();   // Output: Kendaraan berhenti
+        motorcycle.wheelie();  // Output: Motor melakukan wheelie!
+        
+        // Interface
+        Flyable eagle = new Bird("Eagle");
+        eagle.takeOff();  // Output: Lepas landas...
+        eagle.fly();      // Output: Eagle terbang dengan sayap
+        eagle.land();     // Output: Eagle mendarat di pohon
+        
+        Duck duck = new Duck();
+        duck.takeOff();  // Output: Lepas landas...
+        duck.fly();      // Output: Bebek terbang rendah di atas air
+        duck.land();     // Output: Bebek mendarat di air
+        duck.swim();     // Output: Bebek berenang di danau
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <div class="note-box-title">Perbedaan Abstract Class dan Interface</div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Abstract Class</th>
+                                    <th>Interface</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dapat memiliki method abstract dan non-abstract</td>
+                                    <td>Semua method abstract (kecuali default dan static method di Java 8+)</td>
+                                </tr>
+                                <tr>
+                                    <td>Dapat memiliki variabel instance</td>
+                                    <td>Hanya dapat memiliki konstanta (public static final)</td>
+                                </tr>
+                                <tr>
+                                    <td>Dapat memiliki constructor</td>
+                                    <td>Tidak dapat memiliki constructor</td>
+                                </tr>
+                                <tr>
+                                    <td>Subclass hanya dapat extends satu abstract class</td>
+                                    <td>Class dapat implements multiple interfaces</td>
+                                </tr>
+                                <tr>
+                                    <td>Digunakan ketika ada hubungan "is-a"</td>
+                                    <td>Digunakan ketika ada hubungan "can-do"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <div class="video-container">
+                <a href="https://youtu.be/f3ZhNnvtV-w?si=4PAlWACuM3ejkJKV" target="_blank" rel="noopener noreferrer" class="video-btn">
+                    <i class="fas fa-play-circle"></i>
+                    Lihat Tutorial Video
+                </a>
+            </div>
+
+            <!-- Navigasi antar halaman -->
+            <div class="navigation-buttons">
+                <a href="#" class="nav-button prev">
+                    <i class="fas fa-arrow-left"></i>
+                    Sebelumnya
+                </a>
+                <a href="#" class="nav-button next">
+                    Selanjutnya
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        // Check for saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            htmlElement.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Menu section toggle
+        const menuSections = document.querySelectorAll('.menu-section-title');
+        menuSections.forEach(section => {
+            section.addEventListener('click', () => {
+                section.classList.toggle('collapsed');
+                const menuItems = section.nextElementSibling;
+                menuItems.style.display = section.classList.contains('collapsed') ? 'none' : 'block';
+            });
+        });
+
+        // Copy code functionality
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.closest('.code-block');
+                const code = codeBlock.querySelector('code').textContent;
+                
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                });
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active menu item
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.parentElement.classList.add('active');
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.toLowerCase().trim();
+                if (searchTerm) {
+                    // Simple search within the page
+                    const sections = document.querySelectorAll('.content-section');
+                    let found = false;
+                    
+                    sections.forEach(section => {
+                        if (section.textContent.toLowerCase().includes(searchTerm)) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            found = true;
+                            return;
+                        }
+                    });
+                    
+                    if (!found) {
+                        alert('Maaf, kata kunci "' + searchTerm + '" tidak ditemukan dalam materi ini.');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

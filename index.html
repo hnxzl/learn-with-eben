@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn With Eben - Platform Belajar Pemrograman</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --primary-hover: #1d4ed8;
+        --text-color: #1f2937;
+        --text-secondary: #4b5563;
+        --bg-color: #ffffff;
+        --bg-secondary: #f9fafb;
+        --border-color: #e5e7eb;
+        --card-bg: #ffffff;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --code-bg: #1e293b;
+        --code-color: #e2e8f0;
+        --header-height: 70px;
+      }
+
+      .dark {
+        --primary-color: #3b82f6;
+        --primary-hover: #60a5fa;
+        --text-color: #f3f4f6;
+        --text-secondary: #d1d5db;
+        --bg-color: #111827;
+        --bg-secondary: #1f2937;
+        --border-color: #374151;
+        --card-bg: #1f2937;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
+          0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        --code-bg: #0f172a;
+        --code-color: #e2e8f0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s;
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .logo {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo i {
+        margin-right: 10px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .search-container {
+        position: relative;
+      }
+
+      .search-input {
+        padding: 8px 15px 8px 35px;
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        background-color: var(--bg-secondary);
+        color: var(--text-color);
+        font-size: 0.9rem;
+        width: 200px;
+        transition: width 0.3s, box-shadow 0.3s;
+      }
+
+      .search-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--primary-color);
+        width: 250px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+      }
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+      }
+
+      .theme-toggle:hover {
+        background-color: var(--bg-secondary);
+      }
+
+      .hero {
+        padding: 60px 0;
+        text-align: center;
+        background-color: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        color: var(--text-color);
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        max-width: 700px;
+        margin: 0 auto 30px;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.2s;
+      }
+
+      .cta-button:hover {
+        background-color: var(--primary-hover);
+      }
+
+      .courses-section {
+        padding: 60px 0;
+      }
+
+      .section-header {
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .section-header h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .section-header p {
+        color: var(--text-secondary);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .course-card {
+        background-color: var(--card-bg);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-decoration: none;
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      .course-image {
+        height: 160px;
+        background-color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+      }
+
+      .course-content {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .course-title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .course-description {
+        color: var(--text-secondary);
+        margin-bottom: 15px;
+        flex-grow: 1;
+      }
+
+      .course-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .meta-item i {
+        margin-right: 5px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        background-color: var(--primary-color);
+        color: white;
+        margin-left: auto;
+      }
+
+      .features-section {
+        padding: 60px 0;
+        background-color: var(--bg-secondary);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .feature-card {
+        background-color: var(--card-bg);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+      }
+
+      .feature-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+      }
+
+      .feature-title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .feature-description {
+        color: var(--text-secondary);
+      }
+
+      footer {
+        background-color: var(--bg-secondary);
+        border-top: 1px solid var(--border-color);
+        padding: 40px 0;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .footer-column {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .footer-column h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        transition: color 0.2s;
+      }
+
+      .social-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 30px;
+        margin-top: 30px;
+        border-top: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .search-input {
+          width: 150px;
+        }
+
+        .search-input:focus {
+          width: 180px;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .section-header h2 {
+          font-size: 1.75rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container header-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          Learn With Eben
+        </a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="#courses">Courses</a>
+          <a href="java-exercises.html">Latihan</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search courses..."
+            />
+          </div>
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <h1>Belajar Pemrograman dengan Mudah</h1>
+        <p>
+          Platform belajar pemrograman yang dirancang untuk membantu Anda
+          menguasai keterampilan coding dengan materi yang terstruktur dan mudah
+          dipahami.
+        </p>
+        <a href="#courses" class="cta-button">Mulai Belajar</a>
+      </div>
+    </section>
+
+    <section class="courses-section" id="courses">
+      <div class="container">
+        <div class="section-header">
+          <h2>Kursus Populer</h2>
+          <p>
+            Pilih kursus sesuai dengan minat dan kebutuhan Anda untuk memulai
+            perjalanan belajar pemrograman.
+          </p>
+        </div>
+        <div class="course-grid">
+          <a href="java-course.html" class="course-card">
+            <div class="course-image">
+              <i class="fab fa-java"></i>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">Belajar Java dari Nol</h3>
+              <p class="course-description">
+                Pelajari dasar-dasar Java, sintaks, dan konsep pemrograman
+                berorientasi objek untuk membangun aplikasi yang powerful.
+              </p>
+              <div class="course-meta">
+                <span class="meta-item">
+                  <i class="fas fa-book"></i>
+                  15 Materi
+                </span>
+                <span class="meta-item">
+                  <i class="fas fa-clock"></i>
+                  10 Jam
+                </span>
+                <span class="badge">Pemula</span>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="course-card">
+            <div class="course-image" style="background-color: #42a5f5">
+              <i class="fa-brands fa-flutter"></i>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">Flutter Mobile App</h3>
+              <p class="course-description">
+                Belajar membangun aplikasi mobile cross-platform dengan Flutter
+                dan Dart untuk Android dan iOS dengan UI yang menarik.
+              </p>
+              <div class="course-meta">
+                <span class="meta-item">
+                  <i class="fas fa-book"></i>
+                  12 Materi
+                </span>
+                <span class="meta-item">
+                  <i class="fas fa-clock"></i>
+                  8 Jam
+                </span>
+                <span class="badge">Menengah</span>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="course-card">
+            <div class="course-image" style="background-color: #e44d26">
+              <i class="fas fa-code"></i>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">HTML & CSS Web Development</h3>
+              <p class="course-description">
+                Pelajari dasar-dasar pengembangan web dengan HTML, CSS, dan
+                JavaScript untuk membangun website yang responsif.
+              </p>
+              <div class="course-meta">
+                <span class="meta-item">
+                  <i class="fas fa-book"></i>
+                  10 Materi
+                </span>
+                <span class="meta-item">
+                  <i class="fas fa-clock"></i>
+                  7 Jam
+                </span>
+                <span class="badge">Pemula</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Kenapa Belajar Bersama Kami?</h2>
+          <p>
+            Kami menyediakan pengalaman belajar yang komprehensif dan
+            terstruktur untuk membantu Anda mencapai tujuan.
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h3 class="feature-title">Materi Terstruktur</h3>
+            <p class="feature-description">
+              Materi pembelajaran yang disusun secara sistematis dan mudah
+              dipahami untuk pemula hingga tingkat lanjut.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <h3 class="feature-title">Contoh Praktis</h3>
+            <p class="feature-description">
+              Banyak contoh kode dan latihan praktis untuk memperkuat pemahaman
+              konsep pemrograman.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-video"></i>
+            </div>
+            <h3 class="feature-title">Tutorial Video</h3>
+            <p class="feature-description">
+              Akses ke tutorial video yang menjelaskan konsep secara visual
+              untuk memudahkan pemahaman.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3 class="feature-title">Project-Based</h3>
+            <p class="feature-description">
+              Belajar dengan mengerjakan project nyata untuk mengaplikasikan
+              pengetahuan yang didapat.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>Learn With Eben</h3>
+            <p>
+              Platform belajar pemrograman yang dirancang untuk membantu Anda
+              menguasai keterampilan coding dengan materi yang terstruktur dan
+              mudah dipahami.
+            </p>
+            <div class="social-links">
+              <a href="#" target="_blank" rel="noopener noreferrer"
+                ><i class="fab fa-youtube"></i
+              ></a>
+              <a href="#" target="_blank" rel="noopener noreferrer"
+                ><i class="fab fa-github"></i
+              ></a>
+              <a href="#" target="_blank" rel="noopener noreferrer"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="#" target="_blank" rel="noopener noreferrer"
+                ><i class="fab fa-twitter"></i
+              ></a>
+            </div>
+          </div>
+          <div class="footer-column">
+            <h3>Courses</h3>
+            <ul class="footer-links">
+              <li><a href="java-course.html">Java Programming</a></li>
+              <li><a href="#">Flutter Development</a></li>
+              <li><a href="#">Web Development</a></li>
+              <li><a href="#">Data Science</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Tutorials</a></li>
+              <li><a href="#">Documentation</a></li>
+              <li><a href="#">Community</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>Company</h3>
+            <ul class="footer-links">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          &copy; 2025 Learn With Eben. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Theme toggle functionality
+      const themeToggle = document.querySelector(".theme-toggle");
+      const htmlElement = document.documentElement;
+
+      // Check for saved theme preference or use system preference
+      const savedTheme = localStorage.getItem("theme");
+      const systemPrefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+        htmlElement.classList.add("dark");
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+
+      themeToggle.addEventListener("click", () => {
+        htmlElement.classList.toggle("dark");
+
+        if (htmlElement.classList.contains("dark")) {
+          localStorage.setItem("theme", "dark");
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+          localStorage.setItem("theme", "light");
+          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+      });
+
+      // Search functionality
+      const searchInput = document.querySelector(".search-input");
+      searchInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          const searchTerm = this.value.toLowerCase().trim();
+          if (searchTerm) {
+            // Simple search - in a real app, this would query a backend
+            if (searchTerm.includes("java")) {
+              window.location.href = "java-course.html";
+            } else {
+              alert(
+                "Hasil pencarian untuk: " +
+                  searchTerm +
+                  "\nMaaf, kursus tidak ditemukan."
+              );
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
