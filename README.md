@@ -2,13 +2,12 @@
 
 **Course** ini berdasarkan pengalaman pribadi, yang pernah merasakan sulitnya belajar, juga membuat tempat sharing sesama pengguna! 
 
----
 
 
 ---
 ## Link Website
 
-[![Click Me!]((https://hnxzl.github.io/learn-with-eben/java-course.html))
+[![Click Me!](https://hnxzl.github.io/learn-with-eben/java-course.html)
 
 
 
